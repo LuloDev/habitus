@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Habit {
+  id                  String              @id @default(uuid())
+  name                String
+  description         String              @default("")
+  type                HabitType           @default(GOOD)
+  frequencyUnit       FrequencyUnit       @default(DAY)
+  frequencyCount      Int                 @default(1)
+  goalCount           Int                 @default(1)
+  goalMeasure         GoalMeasureType
+  timeEstimateMins    Int?                @default(0)
+  rewardPoints        Int                 @default(0)
+  penaltyPoints       Int                 @default(0)
+  autoComplete        Boolean             @default(false)
+  category            Category?           @relation(fields: [categoryId], references: [id])
+  categoryId          String?
+  instances           HabitInstance[]
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+}
+
+enum HabitType {
+  GOOD
+  BAD
+}
+
+enum FrequencyUnit {
+  DAY
+  WEEK
+  MONTH
+}
+
+enum GoalMeasureType {
+  STEPS
+  ML
+  KCAL
+  MINUTES
+  REPETITIONS
+  POINTS
+  TIMES
+}
+
+model HabitInstance {
+  id                String   @id @default(uuid())
+  habit             Habit    @relation(fields: [habitId], references: [id])
+  habitId           String
+  date              DateTime
+  completed         Boolean  @default(false)
+  timeSpentMins     Int?     @default(0)
+  notes             String?
+}
+
+model Category {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  icon        String?
+  habits      Habit[]
+}
