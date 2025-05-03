@@ -3,7 +3,7 @@ import { type Context, Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { logger } from "hono/logger";
 import { compress } from "hono/compress";
-import { habitRoutes } from "@habit/infrastructure/http/routes";
+import { habitRoutes } from "@/habit/infrastructure/http/routes";
 
 const app = new Hono().basePath("/api");
 app.use(logger());

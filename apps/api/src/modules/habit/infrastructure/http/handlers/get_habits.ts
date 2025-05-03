@@ -1,12 +1,9 @@
 import type { Context } from "hono";
 
-import { GetHabitsUseCase } from "@habit/application/use_cases/get_habits_use_case";
-import { SqlHabits } from "@habitus/database";
+import { container } from "@/di/container";
 
 export const getHabits = async (c: Context) => {
-  const sqlHabits = new SqlHabits();
-  const useCase = new GetHabitsUseCase(sqlHabits);
-  const result = await useCase.execute();
+	const result = await container.getHabitsUseCase.execute();
 
-  return c.json(result);
+	return c.json(result);
 };

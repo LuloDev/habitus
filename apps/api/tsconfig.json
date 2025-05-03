@@ -12,8 +12,8 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": "./",
     "paths": {
-      "@habit/*": [
-        "src/modules/habit/*"
+      "@/*": [
+        "src/modules/*"
       ]
     }
   }
