@@ -5,6 +5,7 @@
 		"dev": "tsx watch src/server.ts"
 	},
 	"dependencies": {
+		"@habitus/core": "workspace:^",
 		"@habitus/database": "workspace:^",
 		"@habitus/validation": "workspace:^",
 		"@hono/node-server": "^1.14.1",

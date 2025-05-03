@@ -36,6 +36,9 @@ importers:
 
   apps/api:
     dependencies:
+      '@habitus/core':
+        specifier: workspace:^
+        version: link:../../packages/core
       '@habitus/database':
         specifier: workspace:^
         version: link:../../packages/database
@@ -116,6 +119,9 @@ importers:
 
   packages/database:
     dependencies:
+      '@habitus/core':
+        specifier: workspace:^
+        version: link:../core
       '@prisma/client':
         specifier: 6.6.0
         version: 6.6.0(prisma@6.7.0(typescript@5.8.3))(typescript@5.8.3)

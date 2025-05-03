@@ -21,6 +21,7 @@
 		"prisma": "catalog:prisma"
 	},
 	"dependencies": {
+		"@habitus/core": "workspace:^",
 		"@prisma/client": "6.6.0"
 	}
 }

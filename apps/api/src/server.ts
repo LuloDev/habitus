@@ -4,6 +4,7 @@ import { HTTPException } from "hono/http-exception";
 import { logger } from "hono/logger";
 import { compress } from "hono/compress";
 import { habitRoutes } from "@/habit/infrastructure/http/routes";
+import { errorResponse } from "@/core/infrastructure/helpers/api_response";
 
 const app = new Hono().basePath("/api");
 app.use(logger());
@@ -17,13 +18,9 @@ app.get("/health", (c) => {
 
 app.onError((err: Error, c: Context) => {
 	if (err instanceof HTTPException) {
-		return err.getResponse();
+		return c.json(errorResponse(err.message, err.cause), err.status);
 	}
-	return new HTTPException(500, {
-		res: c.json({
-			message: err.message,
-		}),
-	}).getResponse();
+	return c.json(errorResponse(err.message, err.stack), 500);
 });
 
 serve(

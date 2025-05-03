@@ -1,5 +1,8 @@
+import { NotFoundError, UnknownError } from "@habitus/core";
 import type { Prisma } from "../generated/prisma";
+import { PrismaClientKnownRequestError } from "../generated/prisma/runtime/library";
 import db from "../prisma_client";
+import { err, ok } from "neverthrow";
 
 export class SqlHabits {
 	async create(habit: Prisma.HabitCreateInput) {
@@ -10,12 +13,26 @@ export class SqlHabits {
 	}
 
 	async findById(id: string) {
-		const result = await db.habit.findUnique({
-			where: {
-				id,
-			},
-		});
-		return result;
+		try {
+			const result = await db.habit.findUnique({
+				where: {
+					id,
+				},
+			});
+			return ok(result);
+		} catch (error) {
+			if (error instanceof PrismaClientKnownRequestError) {
+				if (error.code === "P2025") {
+					return err(new NotFoundError("Habit", id));
+				}
+				return err(new UnknownError(error.message));
+			}
+			return err(
+				new UnknownError(
+					"Unknown error occurred in prisma findById habit repository",
+				),
+			);
+		}
 	}
 
 	async update(id: string, habit: Prisma.HabitUpdateInput) {
@@ -29,12 +46,26 @@ export class SqlHabits {
 	}
 
 	async delete(id: string) {
-		const result = await db.habit.delete({
-			where: {
-				id,
-			},
-		});
-		return result;
+		try {
+			const result = await db.habit.delete({
+				where: {
+					id,
+				},
+			});
+			return ok(result);
+		} catch (error) {
+			if (error instanceof PrismaClientKnownRequestError) {
+				if (error.code === "P2025") {
+					return err(new NotFoundError("Habit", id));
+				}
+				return err(new UnknownError(error.message));
+			}
+			return err(
+				new UnknownError(
+					"Unknown error occurred in prisma delete habit repository",
+				),
+			);
+		}
 	}
 
 	async findAll() {

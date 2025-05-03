@@ -1,15 +1,18 @@
 import type { Context } from "hono";
-import { HTTPException } from "hono/http-exception";
 
 import { container } from "@/di/container";
+import {
+	errorResponse,
+	successResponse,
+} from "@/core/infrastructure/helpers/api_response";
 
 export const deleteHabit = async (c: Context) => {
 	const id = c.req.param("id");
 
 	const result = await container.deleteHabitUseCase.execute(id);
 	if (result.isErr()) {
-		throw new HTTPException(404, { message: "Habit not found" });
+		return c.json(errorResponse(result.error));
 	}
 
-	return c.json({ message: "Habit deleted" });
+	return c.json(successResponse("Habit deleted", result.value));
 };
