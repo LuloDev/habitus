@@ -1,9 +1,9 @@
-import db from "../../prisma_client";
 import type { Prisma } from "../../generated/prisma";
+import db from "../../prisma_client";
 import { HandlerPrisma } from "../utils/handle_prisma";
 
-export class SqlHabits {
-	private readonly handler = new HandlerPrisma("Habit");
+export class SqlHabitsInstance {
+	private readonly handler = new HandlerPrisma("HabitInstance");
 
 	async create(habit: Prisma.HabitCreateInput) {
 		return this.handler.handle(async () => {
@@ -57,9 +57,9 @@ export class SqlHabits {
 		);
 	}
 
-	async findAll() {
+	async findAll(search: Prisma.HabitWhereInput) {
 		return this.handler.handle(async () => {
-			const result = await db.habit.findMany();
+			const result = await db.habit.findMany({ where: search });
 			return result;
 		});
 	}

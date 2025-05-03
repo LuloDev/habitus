@@ -16,6 +16,9 @@ export const postHabit = async (c: Context) => {
 		return c.json(errorResponse("Invalid request", parsedBody.issues), 400);
 	}
 	const result = await container.createHabitUseCase.execute(parsedBody.output);
+	if (result.isErr()) {
+		return c.json(errorResponse(result.error), result.error.statusCode);
+	}
 
-	return c.json(successResponse("Habit created", result));
+	return c.json(successResponse("Habit created", result.value));
 };

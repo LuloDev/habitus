@@ -11,7 +11,7 @@ export const deleteHabit = async (c: Context) => {
 
 	const result = await container.deleteHabitUseCase.execute(id);
 	if (result.isErr()) {
-		return c.json(errorResponse(result.error));
+		return c.json(errorResponse(result.error), result.error.statusCode);
 	}
 
 	return c.json(successResponse("Habit deleted", result.value));

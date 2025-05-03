@@ -17,5 +17,8 @@ export const putHabit = async (c: Context) => {
 	}
 	const result = await container.updateHabitUseCase.execute(parsedBody.output);
 
-	return c.json(successResponse("Habit updated", result));
+	if (result.isErr()) {
+		return c.json(errorResponse(result.error), result.error.statusCode);
+	}
+	return c.json(successResponse("Habit updated", result.value));
 };
