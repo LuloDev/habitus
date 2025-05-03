@@ -35,9 +35,7 @@ export const CreateHabitSchema = v.object({
   goalMeasure: GoalMeasureType,
   timeEstimateMins: v.nullable(v.number()),
   rewardPoints: v.number(),
-  penaltyPoints: v.nullable(v.number()),
-  autoComplete: v.nullable(v.boolean()),
-  categoryId: v.nullable(v.string()),
+  penaltyPoints: v.number(),
 });
 
 export type CreateHabitDto = v.InferInput<typeof CreateHabitSchema>;
@@ -54,11 +52,8 @@ export const HabitSchema = v.object({
   name: v.string(),
   description: v.string(),
   type: HabitType,
-  autoComplete: v.boolean(),
   frequencyCount: v.number(),
   goalCount: v.number(),
-  categoryId: v.nullable(v.string()),
-  category: v.optional(v.string()),
   instances: v.array(v.string()),
   frequencyUnit: FrequencyUnit,
   goalMeasure: v.nullable(GoalMeasureType),

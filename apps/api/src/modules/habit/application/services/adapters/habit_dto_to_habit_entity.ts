@@ -8,7 +8,6 @@ export const habitCreateDtoToHabitEntity = (
     name: dto.name,
     description: dto.description,
     type: dto.type,
-    autoComplete: dto.autoComplete,
     frequencyCount: dto.frequencyCount,
     goalCount: dto.goalCount,
     frequencyUnit: dto.frequencyUnit,
@@ -17,13 +16,6 @@ export const habitCreateDtoToHabitEntity = (
     rewardPoints: dto.rewardPoints,
     timeEstimateMins: dto.timeEstimateMins,
   };
-  if (dto.categoryId) {
-    habit.category = {
-      connect: {
-        id: dto.categoryId,
-      },
-    };
-  }
   return habit;
 };
 
@@ -35,7 +27,6 @@ export const habitUpdateDtoToHabitEntity = (
     name: dto.name,
     description: dto.description,
     type: dto.type,
-    autoComplete: dto.autoComplete,
     frequencyCount: dto.frequencyCount,
     goalCount: dto.goalCount,
     frequencyUnit: dto.frequencyUnit,
@@ -44,12 +35,5 @@ export const habitUpdateDtoToHabitEntity = (
     rewardPoints: dto.rewardPoints,
     timeEstimateMins: dto.timeEstimateMins,
   };
-  if (dto.categoryId) {
-    habit.category = {
-      connect: {
-        id: dto.categoryId,
-      },
-    };
-  }
   return habit;
 };
