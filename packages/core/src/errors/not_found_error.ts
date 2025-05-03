@@ -5,6 +5,6 @@ export class NotFoundError extends AppError {
 	readonly code = "NOT_FOUND";
 
 	constructor(resource: string, id?: string) {
-		super(`${resource} not found${id ? ` with id ${id}` : ""}`);
+		super(`${resource} ${id ? ` not found with id ${id}` : ""}`);
 	}
 }
