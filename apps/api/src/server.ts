@@ -5,12 +5,15 @@ import { logger } from "hono/logger";
 import { compress } from "hono/compress";
 import { habitRoutes } from "@/habit/infrastructure/http/routes";
 import { errorResponse } from "@/core/infrastructure/helpers/api_response";
+import { habitinstanceRoutes } from "@/habit_instance/infrastructure/http/routes";
 
 const app = new Hono().basePath("/api");
 app.use(logger());
 app.use(compress());
 
 app.route("/habits", habitRoutes);
+
+app.route("/habits/instances", habitinstanceRoutes);
 
 app.get("/health", (c) => {
 	return c.json({ status: "ok" });

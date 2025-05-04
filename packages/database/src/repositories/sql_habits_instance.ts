@@ -5,9 +5,9 @@ import { HandlerPrisma } from "../utils/handle_prisma";
 export class SqlHabitsInstance {
 	private readonly handler = new HandlerPrisma("HabitInstance");
 
-	async create(habit: Prisma.HabitCreateInput) {
+	async create(habit: Prisma.HabitInstanceCreateInput) {
 		return this.handler.handle(async () => {
-			const result = await db.habit.create({
+			const result = await db.habitInstance.create({
 				data: habit,
 			});
 			return result;
@@ -17,7 +17,7 @@ export class SqlHabitsInstance {
 	async findById(id: string) {
 		return this.handler.handle(
 			async () => {
-				const result = await db.habit.findUnique({
+				const result = await db.habitInstance.findUnique({
 					where: {
 						id,
 					},
@@ -28,10 +28,10 @@ export class SqlHabitsInstance {
 		);
 	}
 
-	async update(id: string, habit: Prisma.HabitUpdateInput) {
+	async update(id: string, habit: Prisma.HabitInstanceUpdateInput) {
 		return this.handler.handle(
 			async () => {
-				const result = await db.habit.update({
+				const result = await db.habitInstance.update({
 					data: habit,
 					where: {
 						id,
@@ -46,7 +46,7 @@ export class SqlHabitsInstance {
 	async delete(id: string) {
 		return this.handler.handle(
 			async () => {
-				const result = await db.habit.delete({
+				const result = await db.habitInstance.delete({
 					where: {
 						id,
 					},
@@ -57,9 +57,9 @@ export class SqlHabitsInstance {
 		);
 	}
 
-	async findAll(search: Prisma.HabitWhereInput) {
+	async findAll(search: Prisma.HabitInstanceWhereInput) {
 		return this.handler.handle(async () => {
-			const result = await db.habit.findMany({ where: search });
+			const result = await db.habitInstance.findMany({ where: search });
 			return result;
 		});
 	}
