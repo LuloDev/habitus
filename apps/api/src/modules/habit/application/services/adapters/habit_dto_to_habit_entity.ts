@@ -23,7 +23,6 @@ export const habitUpdateDtoToHabitEntity = (
   dto: UpdateHabitDto,
 ): Prisma.HabitUpdateInput => {
   const habit: Prisma.HabitUpdateInput = {
-    id: dto.id,
     name: dto.name,
     description: dto.description,
     type: dto.type,

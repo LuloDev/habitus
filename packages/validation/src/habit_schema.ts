@@ -42,7 +42,6 @@ export type CreateHabitDto = v.InferInput<typeof CreateHabitSchema>;
 
 export const UpdateHabitSchema = v.object({
   ...CreateHabitSchema.entries,
-  id: v.string(),
 });
 
 export type UpdateHabitDto = v.InferInput<typeof UpdateHabitSchema>;

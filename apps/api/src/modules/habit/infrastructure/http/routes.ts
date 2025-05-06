@@ -10,5 +10,5 @@ export const habitRoutes = new Hono();
 habitRoutes.post("/", postHabit);
 habitRoutes.get("/", getHabits);
 habitRoutes.get("/:id", getHabit);
-habitRoutes.put("/", putHabit);
+habitRoutes.put("/:id", putHabit);
 habitRoutes.delete("/:id", deleteHabit);
