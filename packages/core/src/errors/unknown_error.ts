@@ -1,9 +1,6 @@
-export class UnknownError extends Error {
-	public readonly statusCode = 500;
-	public readonly code = "UNKNOWN_ERROR";
+import { AppError } from "./app_error";
 
-	constructor(message: string) {
-		super(message);
-		Object.setPrototypeOf(this, new.target.prototype);
-	}
+export class UnknownError extends AppError {
+  public readonly statusCode = 500;
+  public readonly code = "UNKNOWN_ERROR";
 }
