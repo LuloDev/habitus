@@ -29,8 +29,6 @@ export const errorResponse = (
   error: string | AppError,
   details: unknown = null,
 ): ErrorResponse => {
-  console.log(error instanceof AppError);
-  console.log(error);
   if (error instanceof AppError) {
     return {
       status: "error",
