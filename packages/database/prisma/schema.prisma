@@ -52,7 +52,7 @@ enum GoalMeasureType {
 
 model HabitInstance {
   id                String   @id @default(uuid())
-  habit             Habit    @relation(fields: [habitId], references: [id])
+  habit             Habit    @relation(fields: [habitId], references: [id], onDelete: Cascade)
   habitId           String
   date              DateTime
   completed         Boolean  @default(false)
