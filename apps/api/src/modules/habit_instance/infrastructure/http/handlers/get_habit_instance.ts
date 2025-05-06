@@ -5,10 +5,14 @@ import {
 import { container } from "@/di/container";
 import type { Context } from "hono";
 
-export const getHabitInstances = async (c: Context) => {
+export const getHabitInstance = async (c: Context) => {
   const habitId = c.req.param("habitId");
+  const instanceId = c.req.param("id");
 
-  const result = await container.getHabitInstancesUseCase.execute(habitId);
+  const result = await container.getHabitInstanceUseCase.execute(
+    habitId,
+    instanceId,
+  );
   if (result.isErr()) {
     return c.json(errorResponse(result.error), result.error.statusCode);
   }

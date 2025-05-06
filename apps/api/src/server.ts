@@ -13,25 +13,25 @@ app.use(compress());
 
 app.route("/habits", habitRoutes);
 
-app.route("/habits/instances", habitinstanceRoutes);
+app.route("/habits/:habitId/instances", habitinstanceRoutes);
 
 app.get("/health", (c) => {
-	return c.json({ status: "ok" });
+  return c.json({ status: "ok" });
 });
 
 app.onError((err: Error, c: Context) => {
-	if (err instanceof HTTPException) {
-		return c.json(errorResponse(err.message, err.cause), err.status);
-	}
-	return c.json(errorResponse(err.message, err.stack), 500);
+  if (err instanceof HTTPException) {
+    return c.json(errorResponse(err.message, err.cause), err.status);
+  }
+  return c.json(errorResponse(err.message, err.stack), 500);
 });
 
 serve(
-	{
-		fetch: app.fetch,
-		port: 3001,
-	},
-	(info) => {
-		console.log(`Server is running on http://localhost:${info.port}`);
-	},
+  {
+    fetch: app.fetch,
+    port: 3001,
+  },
+  (info) => {
+    console.log(`Server is running on http://localhost:${info.port}`);
+  },
 );
