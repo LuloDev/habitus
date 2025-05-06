@@ -14,7 +14,9 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"@prisma/client": "^6.7.0",
 		"neverthrow": "^8.2.0",
+		"prisma": "^6.7.0",
 		"valibot": "^1.0.0"
 	},
 	"devDependencies": {
@@ -24,6 +26,8 @@
 		"typescript": "^5.8.3"
 	},
 	"pnpm": {
-		"onlyBuiltDependencies": ["esbuild"]
+		"onlyBuiltDependencies": [
+			"esbuild"
+		]
 	}
 }

@@ -4,8 +4,8 @@ import {
   NotFoundError,
   UnknownError,
 } from "@habitus/core";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { err, ok, type Result } from "neverthrow";
+import { PrismaClientKnownRequestError } from "../../generated/prisma/runtime/library";
 
 export class HandlerPrisma {
   constructor(private readonly entityName: string) { }
@@ -18,6 +18,16 @@ export class HandlerPrisma {
       const result = await operation();
       return ok(result);
     } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        if (error.code === "P2025") {
+          return err(new NotFoundError(this.entityName, resourceId));
+        }
+        if (error.code === "P2003") {
+          return err(new DependencyConflictError(this.entityName));
+        }
+        return err(new UnknownError(error.message, error.code));
+      }
+
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === "P2025") {
           return err(new NotFoundError(this.entityName, resourceId));
