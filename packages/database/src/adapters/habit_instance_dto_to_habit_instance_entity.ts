@@ -1,8 +1,8 @@
-import type { Prisma } from "@habitus/database/generated/prisma";
 import type {
   CreateHabitInstanceDto,
   UpdateHabitInstanceDto,
 } from "@habitus/validation";
+import type { Prisma } from "../../generated/prisma";
 
 export const createHabitInstanceDtoToHabitInstanceEntity = (
   dto: CreateHabitInstanceDto,

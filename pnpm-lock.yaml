@@ -122,6 +122,9 @@ importers:
       '@habitus/core':
         specifier: workspace:^
         version: link:../core
+      '@habitus/validation':
+        specifier: workspace:^
+        version: link:../validation
 
   packages/validation:
     dependencies:

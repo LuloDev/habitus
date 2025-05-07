@@ -18,6 +18,7 @@
 		"schema": "./prisma/schema.prisma"
 	},
 	"dependencies": {
-		"@habitus/core": "workspace:^"
+		"@habitus/core": "workspace:^",
+		"@habitus/validation": "workspace:^"
 	}
 }

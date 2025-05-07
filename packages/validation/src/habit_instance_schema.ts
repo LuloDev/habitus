@@ -24,10 +24,8 @@ export type UpdateHabitInstanceDto = v.InferInput<
 >;
 
 export const HabitInstanceSchema = v.object({
-  habit: v.object({
-    id: v.string(),
-    name: v.string(),
-  }),
+  id: v.string(),
+  habitId: v.string(),
   date: v.date(),
   completed: v.boolean(),
   goalCount: v.number(),
