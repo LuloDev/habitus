@@ -1,32 +1,34 @@
 <script lang="ts">
-import HabitInstance from "./HabitInstance.svelte";
+  import type {
+    HabitInstanceDto,
+    HabitWithInstancesDto,
+  } from "@habitus/validation";
+  import HabitInstance from "./HabitInstance.svelte";
 
-const habit = {
-	id: "9b3016a9-79ae-48ec-9ba5-d0b1cc949071",
-	name: "Drink WATHER",
-	description: "Drink more than 1 litre of water per day",
-	type: "GOOD",
-	frequencyCount: 1,
-	goalCount: 1000,
-	instances: [] as any[],
-	frequencyUnit: "DAY",
-	goalMeasure: "ML",
-	penaltyPoints: 2,
-	rewardPoints: 0,
-	timeEstimateMins: null,
-};
+  export let habit: HabitWithInstancesDto;
+  const days: { date: Date; instances: HabitInstanceDto[] | null }[] = [];
 
-for (let i = 0; i < 364; i++) {
-	habit.instances.push({
-		id: "e595fda1-c4d0-4550-92be-89ca0102e403",
-		habitId: "b6460c07-a1fb-4e5c-8b6d-eae18be678f2",
-		date: "2025-05-04T01:03:35.430Z",
-		completed: true,
-		goalCount: 0,
-		timeSpentMins: 0,
-		notes: "",
-	});
-}
+  for (let i = 364; i > 0; i--) {
+    const date = new Date();
+    date.setDate(date.getDate() - i);
+    const instances = habit.instances.filter(
+      (instance) =>
+        instance.date.getDay() === date.getDay() &&
+        instance.date.getMonth() === date.getMonth() &&
+        instance.date.getFullYear() === date.getFullYear(),
+    );
+    if (instances) {
+      days.push({
+        date,
+        instances,
+      });
+    } else {
+      days.push({
+        date,
+        instances: null,
+      });
+    }
+  }
 </script>
 
 <div class="habit-entry" data-habit-id={habit.id}>
@@ -39,8 +41,8 @@ for (let i = 0; i < 364; i++) {
   </div>
   <div class="habit-grid-container">
     <div class="habit-grid">
-      {#each habit.instances as instance, index}
-        <HabitInstance {instance} typeHabit={habit.type} {index} />
+      {#each days as day, index}
+        <HabitInstance typeHabit={habit.type} {index} {day} />
       {/each}
     </div>
   </div>
@@ -94,8 +96,9 @@ for (let i = 0; i < 364; i++) {
 
   .habit-grid {
     display: grid;
-    grid-template-columns: repeat(52, 16px);
-    grid-auto-rows: 16px;
+    grid-template-rows: repeat(7, 16px);
+    grid-auto-flow: column;
+    grid-auto-columns: 16px;
     gap: 3px;
     min-width: calc(52 * (16px + 3px));
   }

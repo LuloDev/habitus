@@ -1,9 +1,11 @@
 <script lang="ts">
-export let instance: any;
-export let index: number;
-export let typeHabit: string = "GOOD";
+  import type { HabitInstanceDto } from "@habitus/validation";
 
-const level = Math.floor(Math.random() * 4) + 1;
+  export let index: number;
+  export const typeHabit: string = "GOOD";
+  export let day: { date: Date; instances: HabitInstanceDto[] | null };
+
+  const level = day.instances ? day.instances.length : 0;
 </script>
 
 <div
@@ -14,11 +16,10 @@ const level = Math.floor(Math.random() * 4) + 1;
   class:level-1={level < 1 && level >= 0.5}
   class:level-2={level < 2 && level >= 1}
   class:level-3={level < 3 && level >= 2}
-  class:level-4={level < 4 && level >= 3}
-  data-day-square-id={instance.id}
+  class:level-4={level >= 3}
   data-day-square-index={index}
   data-day-square-level={level}
-  data-day-square-title="Day {index}"
+  data-day-square-title="Day {day.date.getDate()}"
 ></div>
 
 <style>
