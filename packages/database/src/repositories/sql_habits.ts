@@ -28,6 +28,9 @@ export class SqlHabits {
           where: {
             id,
           },
+          include: {
+            instances: true,
+          },
         });
         if (!result) {
           return null;

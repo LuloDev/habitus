@@ -1,4 +1,5 @@
 import * as v from "valibot";
+import { HabitInstanceSchema } from "./habit_instance_schema";
 
 export const HabitTypes = {
   GOOD: "GOOD",
@@ -53,7 +54,6 @@ export const HabitSchema = v.object({
   type: HabitType,
   frequencyCount: v.number(),
   goalCount: v.number(),
-  instances: v.array(v.string()),
   frequencyUnit: FrequencyUnit,
   goalMeasure: v.nullable(GoalMeasureType),
   penaltyPoints: v.number(),
@@ -61,4 +61,13 @@ export const HabitSchema = v.object({
   timeEstimateMins: v.nullable(v.number()),
 });
 
+export const HabitWhithInstancesSchema = v.object({
+  ...HabitSchema.entries,
+  instances: v.array(HabitInstanceSchema),
+});
+
 export type HabitDto = v.InferInput<typeof HabitSchema>;
+
+export type HabitWithInstancesDto = v.InferInput<
+  typeof HabitWhithInstancesSchema
+>;
