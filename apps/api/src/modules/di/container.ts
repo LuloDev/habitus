@@ -14,23 +14,23 @@ const habitRepository = new SqlHabits();
 const habitInstanceRepository = new SqlHabitsInstance();
 
 export const container = {
-  createHabitUseCase: new CreateHabitUseCase(habitRepository),
-  updateHabitUseCase: new UpdateHabitUseCase(habitRepository),
-  deleteHabitUseCase: new DeleteHabitUseCase(habitRepository),
-  getHabitsUseCase: new GetHabitsUseCase(habitRepository),
-  getHabitUseCase: new GetHabitUseCase(habitRepository),
+	createHabitUseCase: new CreateHabitUseCase(habitRepository),
+	updateHabitUseCase: new UpdateHabitUseCase(habitRepository),
+	deleteHabitUseCase: new DeleteHabitUseCase(habitRepository),
+	getHabitsUseCase: new GetHabitsUseCase(habitRepository),
+	getHabitUseCase: new GetHabitUseCase(habitRepository),
 
-  createHabitInstanceUseCase: new CreateHabitInstanceUseCase(
-    habitInstanceRepository,
-  ),
-  updateHabitInstanceUseCase: new UpdateHabitInstanceUseCase(
-    habitInstanceRepository,
-  ),
-  deleteHabitInstanceUseCase: new DeleteHabitInstanceUseCase(
-    habitInstanceRepository,
-  ),
-  getHabitInstancesUseCase: new GetHabitInstancesUseCase(
-    habitInstanceRepository,
-  ),
-  getHabitInstanceUseCase: new GetHabitInstanceUseCase(habitInstanceRepository),
+	createHabitInstanceUseCase: new CreateHabitInstanceUseCase(
+		habitInstanceRepository,
+	),
+	updateHabitInstanceUseCase: new UpdateHabitInstanceUseCase(
+		habitInstanceRepository,
+	),
+	deleteHabitInstanceUseCase: new DeleteHabitInstanceUseCase(
+		habitInstanceRepository,
+	),
+	getHabitInstancesUseCase: new GetHabitInstancesUseCase(
+		habitInstanceRepository,
+	),
+	getHabitInstanceUseCase: new GetHabitInstanceUseCase(habitInstanceRepository),
 };

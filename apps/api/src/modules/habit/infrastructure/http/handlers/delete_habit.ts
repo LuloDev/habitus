@@ -1,10 +1,10 @@
 import type { Context } from "hono";
 
-import { container } from "@/di/container";
 import {
 	errorResponse,
 	successResponse,
 } from "@/core/infrastructure/helpers/api_response";
+import { container } from "@/di/container";
 
 export const deleteHabit = async (c: Context) => {
 	const id = c.req.param("id");

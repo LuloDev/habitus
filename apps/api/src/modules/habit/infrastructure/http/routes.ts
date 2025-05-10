@@ -1,9 +1,9 @@
 import { Hono } from "hono";
-import { postHabit } from "./handlers/post_habit";
-import { getHabits } from "./handlers/get_habits";
-import { getHabit } from "./handlers/get_habit";
-import { putHabit } from "./handlers/put_habit";
 import { deleteHabit } from "./handlers/delete_habit";
+import { getHabit } from "./handlers/get_habit";
+import { getHabits } from "./handlers/get_habits";
+import { postHabit } from "./handlers/post_habit";
+import { putHabit } from "./handlers/put_habit";
 
 export const habitRoutes = new Hono();
 

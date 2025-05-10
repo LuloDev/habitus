@@ -1,12 +1,12 @@
+import { errorResponse } from "@/core/infrastructure/helpers/api_response";
+import { habitRoutes } from "@/habit/infrastructure/http/routes";
+import { habitinstanceRoutes } from "@/habit_instance/infrastructure/http/routes";
 import { serve } from "@hono/node-server";
 import { type Context, Hono } from "hono";
-import { HTTPException } from "hono/http-exception";
-import { logger } from "hono/logger";
 import { compress } from "hono/compress";
 import { cors } from "hono/cors";
-import { habitRoutes } from "@/habit/infrastructure/http/routes";
-import { errorResponse } from "@/core/infrastructure/helpers/api_response";
-import { habitinstanceRoutes } from "@/habit_instance/infrastructure/http/routes";
+import { HTTPException } from "hono/http-exception";
+import { logger } from "hono/logger";
 
 const app = new Hono().basePath("/api");
 app.use(logger());

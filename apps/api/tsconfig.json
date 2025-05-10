@@ -1,20 +1,18 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "target": "ES2022",
-    "outDir": "./dist",
-    "incremental": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "baseUrl": "./",
-    "paths": {
-      "@/*": [
-        "src/modules/*"
-      ]
-    }
-  }
+	"compilerOptions": {
+		"module": "commonjs",
+		"target": "ES2022",
+		"outDir": "./dist",
+		"incremental": true,
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"baseUrl": "./",
+		"paths": {
+			"@/*": ["src/modules/*"]
+		}
+	}
 }

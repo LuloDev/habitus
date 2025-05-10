@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { HabitInstanceDto } from "@habitus/validation";
+import type { HabitInstanceDto } from "@habitus/validation";
 
-  export let index: number;
-  export let typeHabit: string;
-  export let day: { date: Date; instances: HabitInstanceDto[] | null };
+export let index: number;
+export let typeHabit: string;
+export let day: { date: Date; instances: HabitInstanceDto[] | null };
 
-  const level = day.instances ? day.instances.length : 0;
+const level = day.instances ? day.instances.length : 0;
 </script>
 
 <div

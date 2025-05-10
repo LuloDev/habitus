@@ -1,11 +1,11 @@
-import db from "../../prisma_client";
-import { HandlerPrisma } from "../utils/handle_prisma";
 import type { CreateHabitDto, UpdateHabitDto } from "@habitus/validation";
+import db from "../../prisma_client";
 import {
 	habitCreateDtoToHabitEntity,
 	habitUpdateDtoToHabitEntity,
 } from "../adapters/habit_dto_to_habit_entity";
 import { habitEntityToHabitDto } from "../adapters/habit_entity_to_habit_dto";
+import { HandlerPrisma } from "../utils/handle_prisma";
 
 export class SqlHabits {
 	private readonly handler = new HandlerPrisma("Habit");

@@ -1,12 +1,12 @@
 import type { Context } from "hono";
 import { safeParse } from "valibot";
 
-import { CreateHabitSchema } from "@habitus/validation";
-import { container } from "@/di/container";
 import {
 	errorResponse,
 	successResponse,
 } from "@/core/infrastructure/helpers/api_response";
+import { container } from "@/di/container";
+import { CreateHabitSchema } from "@habitus/validation";
 
 export const postHabit = async (c: Context) => {
 	const body = await c.req.json();
