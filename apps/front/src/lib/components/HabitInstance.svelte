@@ -2,7 +2,7 @@
   import type { HabitInstanceDto } from "@habitus/validation";
 
   export let index: number;
-  export const typeHabit: string = "GOOD";
+  export let typeHabit: string;
   export let day: { date: Date; instances: HabitInstanceDto[] | null };
 
   const level = day.instances ? day.instances.length : 0;
