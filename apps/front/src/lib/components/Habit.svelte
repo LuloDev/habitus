@@ -101,6 +101,6 @@ while (currentDate <= today) {
     grid-auto-flow: column;
     grid-auto-columns: 16px;
     gap: 3px;
-    min-width: calc(52 * (16px + 3px));
+    min-width: calc(52 * (16px + 3.5px));
   }
 </style>
