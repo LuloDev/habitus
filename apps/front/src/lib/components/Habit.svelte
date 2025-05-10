@@ -1,40 +1,40 @@
 <script lang="ts">
-  import type {
-    HabitInstanceDto,
-    HabitWithInstancesDto,
-  } from "@habitus/validation";
-  import HabitInstance from "./HabitInstance.svelte";
+import type {
+	HabitInstanceDto,
+	HabitWithInstancesDto,
+} from "@habitus/validation";
+import HabitInstance from "./HabitInstance.svelte";
 
-  export let habit: HabitWithInstancesDto;
-  const days: { date: Date; instances: HabitInstanceDto[] | null }[] = [];
+export let habit: HabitWithInstancesDto;
+const days: { date: Date; instances: HabitInstanceDto[] | null }[] = [];
 
-  const startDate = new Date();
-  startDate.setFullYear(startDate.getFullYear() - 1);
+const startDate = new Date();
+startDate.setFullYear(startDate.getFullYear() - 1);
 
-  startDate.setDate(startDate.getDate() - ((startDate.getDay() + 6) % 7));
-  startDate.setHours(0, 0, 0, 0);
+startDate.setDate(startDate.getDate() - startDate.getDay());
+startDate.setHours(0, 0, 0, 0);
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const currentDate = new Date(startDate);
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+const currentDate = new Date(startDate);
 
-  while (currentDate <= today) {
-    const instancesForDay = habit.instances.filter((instance) => {
-      const instanceDate = new Date(instance.date);
-      instanceDate.setHours(0, 0, 0, 0);
-      return instanceDate.getTime() === currentDate.getTime();
-    });
-    days.push({
-      date: new Date(currentDate),
-      instances: instancesForDay.length > 0 ? instancesForDay : null,
-    });
-    currentDate.setDate(currentDate.getDate() + 1);
-  }
+while (currentDate <= today) {
+	const instancesForDay = habit.instances.filter((instance) => {
+		const instanceDate = new Date(instance.date);
+		instanceDate.setHours(0, 0, 0, 0);
+		return instanceDate.getTime() === currentDate.getTime();
+	});
+	days.push({
+		date: new Date(currentDate),
+		instances: instancesForDay.length > 0 ? instancesForDay : null,
+	});
+	currentDate.setDate(currentDate.getDate() + 1);
+}
 </script>
 
 <div class="habit-entry" data-habit-id={habit.id}>
   <div class="habit-info">
-    <span class="habit-icon">🍺</span>
+    <span class="habit-icon">{habit?.emoji}</span>
     <span class="habit-name">{habit.name}</span>
     <div class="habit-actions">
       <button title="Edit">✏️</button>

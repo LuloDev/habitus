@@ -7,6 +7,7 @@ export const habitCreateDtoToHabitEntity = (
   const habit: Prisma.HabitCreateInput = {
     name: dto.name,
     description: dto.description,
+    emoji: dto.emoji,
     type: dto.type,
     frequencyCount: dto.frequencyCount,
     goalCount: dto.goalCount,
@@ -25,6 +26,7 @@ export const habitUpdateDtoToHabitEntity = (
   const habit: Prisma.HabitUpdateInput = {
     name: dto.name,
     description: dto.description,
+    emoji: dto.emoji,
     type: dto.type,
     frequencyCount: dto.frequencyCount,
     goalCount: dto.goalCount,
