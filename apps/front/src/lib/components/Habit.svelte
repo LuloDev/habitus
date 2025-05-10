@@ -8,26 +8,27 @@
   export let habit: HabitWithInstancesDto;
   const days: { date: Date; instances: HabitInstanceDto[] | null }[] = [];
 
-  for (let i = 364; i > 0; i--) {
-    const date = new Date();
-    date.setDate(date.getDate() - i);
-    const instances = habit.instances.filter(
-      (instance) =>
-        instance.date.getDay() === date.getDay() &&
-        instance.date.getMonth() === date.getMonth() &&
-        instance.date.getFullYear() === date.getFullYear(),
-    );
-    if (instances) {
-      days.push({
-        date,
-        instances,
-      });
-    } else {
-      days.push({
-        date,
-        instances: null,
-      });
-    }
+  const startDate = new Date();
+  startDate.setFullYear(startDate.getFullYear() - 1);
+
+  startDate.setDate(startDate.getDate() - ((startDate.getDay() + 6) % 7));
+  startDate.setHours(0, 0, 0, 0);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const currentDate = new Date(startDate);
+
+  while (currentDate <= today) {
+    const instancesForDay = habit.instances.filter((instance) => {
+      const instanceDate = new Date(instance.date);
+      instanceDate.setHours(0, 0, 0, 0);
+      return instanceDate.getTime() === currentDate.getTime();
+    });
+    days.push({
+      date: new Date(currentDate),
+      instances: instancesForDay.length > 0 ? instancesForDay : null,
+    });
+    currentDate.setDate(currentDate.getDate() + 1);
   }
 </script>
 
