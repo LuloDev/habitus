@@ -6,24 +6,24 @@ async function main() {
 	const habits: Prisma.HabitCreateInput[] = [
 		{
 			name: "Drink water",
+			emoji: "🚰",
 			description: "Drink water",
-			frequencyUnit: "MONTH",
 			type: "GOOD",
 			goalMeasure: "ML",
 			goalCount: 35,
 		},
 		{
 			name: "Exercise",
+			emoji: "🏋️",
 			description: "Exercise",
-			frequencyUnit: "DAY",
 			type: "GOOD",
 			goalMeasure: "TIMES",
 			goalCount: 1,
 		},
 		{
 			name: "Social media",
+			emoji: "📱",
 			description: "Social media",
-			frequencyUnit: "DAY",
 			type: "BAD",
 			goalMeasure: "MINUTES",
 			goalCount: 90,

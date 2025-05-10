@@ -9,13 +9,8 @@ export const habitCreateDtoToHabitEntity = (
 		description: dto.description,
 		emoji: dto.emoji,
 		type: dto.type,
-		frequencyCount: dto.frequencyCount,
 		goalCount: dto.goalCount,
-		frequencyUnit: dto.frequencyUnit,
 		goalMeasure: dto.goalMeasure,
-		penaltyPoints: dto.penaltyPoints,
-		rewardPoints: dto.rewardPoints,
-		timeEstimateMins: dto.timeEstimateMins,
 	};
 	return habit;
 };
@@ -28,13 +23,8 @@ export const habitUpdateDtoToHabitEntity = (
 		description: dto.description,
 		emoji: dto.emoji,
 		type: dto.type,
-		frequencyCount: dto.frequencyCount,
 		goalCount: dto.goalCount,
-		frequencyUnit: dto.frequencyUnit,
 		goalMeasure: dto.goalMeasure,
-		penaltyPoints: dto.penaltyPoints,
-		rewardPoints: dto.rewardPoints,
-		timeEstimateMins: dto.timeEstimateMins,
 	};
 	return habit;
 };

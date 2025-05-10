@@ -18,13 +18,8 @@ model Habit {
   emoji               String?
   description         String              @default("")
   type                HabitType           @default(GOOD)
-  frequencyUnit       FrequencyUnit       @default(DAY)
-  frequencyCount      Int                 @default(1)
   goalCount           Int                 @default(1)
   goalMeasure         GoalMeasureType
-  timeEstimateMins    Int?                @default(0)
-  rewardPoints        Int                 @default(0)
-  penaltyPoints       Int                 @default(0)
   instances           HabitInstance[]
   createdAt           DateTime            @default(now())
   updatedAt           DateTime            @updatedAt
@@ -35,12 +30,6 @@ enum HabitType {
   BAD
 }
 
-enum FrequencyUnit {
-  DAY
-  WEEK
-  MONTH
-}
-
 enum GoalMeasureType {
   STEPS
   ML
@@ -49,6 +38,7 @@ enum GoalMeasureType {
   REPETITIONS
   POINTS
   TIMES
+  KILOMETERS
 }
 
 model HabitInstance {

@@ -6,12 +6,6 @@ export const HabitTypes = {
 	BAD: "BAD",
 } as const;
 
-export const FrequencyUnits = {
-	DAY: "DAY",
-	WEEK: "WEEK",
-	MONTH: "MONTH",
-} as const;
-
 export const GoalMeasureTypes = {
 	STEPS: "STEPS",
 	ML: "ML",
@@ -20,10 +14,10 @@ export const GoalMeasureTypes = {
 	REPETITIONS: "REPETITIONS",
 	POINTS: "POINTS",
 	TIMES: "TIMES",
+	KILOMETERS: "KILOMETERS",
 } as const;
 
 export const HabitType = v.enum(HabitTypes);
-export const FrequencyUnit = v.enum(FrequencyUnits);
 export const GoalMeasureType = v.enum(GoalMeasureTypes);
 
 export const CreateHabitSchema = v.object({
@@ -31,13 +25,9 @@ export const CreateHabitSchema = v.object({
 	description: v.optional(v.string()),
 	emoji: v.optional(v.pipe(v.string(), v.emoji())),
 	type: HabitType,
-	frequencyUnit: FrequencyUnit,
 	frequencyCount: v.optional(v.number()),
 	goalCount: v.optional(v.number()),
 	goalMeasure: GoalMeasureType,
-	timeEstimateMins: v.nullable(v.number()),
-	rewardPoints: v.number(),
-	penaltyPoints: v.number(),
 });
 
 export type CreateHabitDto = v.InferInput<typeof CreateHabitSchema>;
@@ -56,11 +46,7 @@ export const HabitSchema = v.object({
 	type: HabitType,
 	frequencyCount: v.number(),
 	goalCount: v.number(),
-	frequencyUnit: FrequencyUnit,
 	goalMeasure: v.nullable(GoalMeasureType),
-	penaltyPoints: v.number(),
-	rewardPoints: v.number(),
-	timeEstimateMins: v.nullable(v.number()),
 });
 
 export const HabitWhithInstancesSchema = v.object({
