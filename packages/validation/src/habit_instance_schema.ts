@@ -7,7 +7,6 @@ export const CreateHabitInstanceSchema = v.object({
 	),
 	completed: v.boolean(),
 	goalCount: v.number(),
-	timeSpentMins: v.nullable(v.number()),
 	notes: v.nullable(v.string()),
 });
 
@@ -29,7 +28,6 @@ export const HabitInstanceSchema = v.object({
 	date: v.date(),
 	completed: v.boolean(),
 	goalCount: v.number(),
-	timeSpentMins: v.nullable(v.number()),
 	notes: v.nullable(v.string()),
 });
 

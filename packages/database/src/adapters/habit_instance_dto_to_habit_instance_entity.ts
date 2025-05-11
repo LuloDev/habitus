@@ -17,7 +17,6 @@ export const createHabitInstanceDtoToHabitInstanceEntity = (
 		date: dto.date,
 		completed: dto.completed,
 		goalCount: dto.goalCount,
-		timeSpentMins: dto.timeSpentMins,
 		notes: dto.notes,
 	};
 	return habitInstance;
@@ -38,7 +37,6 @@ export const habitInstanceUpdateDtoToHabitInstanceEntity = (
 		date: dto.date,
 		completed: dto.completed,
 		goalCount: dto.goalCount,
-		timeSpentMins: dto.timeSpentMins,
 		notes: dto.notes,
 	};
 	return habitInstance;

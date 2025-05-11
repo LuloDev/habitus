@@ -10,7 +10,6 @@ export const habitInstanceEntityToHabitInstanceDto = (
 		date: entity.date,
 		completed: entity.completed,
 		goalCount: entity.goalCount,
-		timeSpentMins: entity.timeSpentMins,
 		notes: entity.notes,
 	};
 };

@@ -48,6 +48,5 @@ model HabitInstance {
   date              DateTime
   completed         Boolean  @default(false)
   goalCount         Int
-  timeSpentMins     Int?     @default(0)
   notes             String?
 }
