@@ -82,7 +82,7 @@ while (currentDate <= today) {
     margin-left: auto;
   }
 
-  .habit-actions button {
+  .habit-actions a {
     background: none;
     border: none;
     color: var(--color-text-secondary);
@@ -90,7 +90,7 @@ while (currentDate <= today) {
     padding: 5px;
     font-size: 1.1em;
   }
-  .habit-actions button:hover {
+  .habit-actions a:hover {
     color: var(--color-accent-blue);
   }
 
