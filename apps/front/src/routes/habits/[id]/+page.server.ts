@@ -1,4 +1,4 @@
-import { getHabit } from "$lib/api";
+import { getHabit, updateHabit } from "$lib/api";
 import { parseWithValibot } from "$lib/valibot_utils";
 import { UpdateHabitSchema } from "@habitus/validation";
 import { fail, redirect } from "@sveltejs/kit";
@@ -25,8 +25,8 @@ export const actions: Actions = {
 		}
 
 		const validatedData = result.data;
-		//TODO UPDATE HABIT
+		await updateHabit(habitId, validatedData);
 
-		throw redirect(303, "/habits");
+		throw redirect(303, "/");
 	},
 };

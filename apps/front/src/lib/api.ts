@@ -1,4 +1,8 @@
-import type { HabitWithInstancesDto } from "@habitus/validation";
+import type {
+	CreateHabitDto,
+	HabitWithInstancesDto,
+	UpdateHabitDto,
+} from "@habitus/validation";
 import { error } from "@sveltejs/kit";
 
 export type SuccessResponse<T> = {
@@ -50,4 +54,34 @@ export const getHabit = async (id: string): Promise<HabitWithInstancesDto> => {
 		})),
 	};
 	return data;
+};
+
+export const createHabit = async (habit: CreateHabitDto) => {
+	const response = await fetch(`${API_URL}/habits`, {
+		method: "POST",
+		body: JSON.stringify(habit),
+		headers: {
+			"Content-Type": "application/json",
+		},
+	});
+	const result: ApiResponse<HabitWithInstancesDto> = await response.json();
+	if (result.status === "error") {
+		throw error(500, result.message);
+	}
+	return result.data;
+};
+
+export const updateHabit = async (id: string, habit: UpdateHabitDto) => {
+	const response = await fetch(`${API_URL}/habits/${id}`, {
+		method: "PUT",
+		body: JSON.stringify(habit),
+		headers: {
+			"Content-Type": "application/json",
+		},
+	});
+	const result: ApiResponse<HabitWithInstancesDto> = await response.json();
+	if (result.status === "error") {
+		throw error(500, result.message);
+	}
+	return result.data;
 };
