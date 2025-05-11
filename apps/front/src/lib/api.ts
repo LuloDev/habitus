@@ -1,4 +1,5 @@
 import type { HabitWithInstancesDto } from "@habitus/validation";
+import { error } from "@sveltejs/kit";
 
 export type SuccessResponse<T> = {
 	status: "success";
@@ -20,7 +21,7 @@ export const getHabits = async (): Promise<HabitWithInstancesDto[]> => {
 	const response = await fetch(`${API_URL}/habits`);
 	const result: ApiResponse<HabitWithInstancesDto[]> = await response.json();
 	if (result.status === "error") {
-		throw new Error(result.message);
+		throw error(500, result.message);
 	}
 	const data = result.data.map((habit) => ({
 		...habit,
@@ -32,11 +33,14 @@ export const getHabits = async (): Promise<HabitWithInstancesDto[]> => {
 	return data;
 };
 
-export const getHabit = async (id: number): Promise<HabitWithInstancesDto> => {
+export const getHabit = async (id: string): Promise<HabitWithInstancesDto> => {
 	const response = await fetch(`${API_URL}/habits/${id}`);
 	const result: ApiResponse<HabitWithInstancesDto> = await response.json();
 	if (result.status === "error") {
-		throw new Error(result.message);
+		if (response.status === 404) {
+			throw error(404, "Habit not found");
+		}
+		throw error(500, result.message);
 	}
 	const data = {
 		...result.data,

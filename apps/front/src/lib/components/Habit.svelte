@@ -37,7 +37,11 @@ while (currentDate <= today) {
     <span class="habit-icon">{habit?.emoji}</span>
     <span class="habit-name">{habit.name}</span>
     <div class="habit-actions">
-      <button title="Edit">✏️</button>
+      <a
+        title="Edit"
+        href="/habits/{habit.id}"
+        data-sveltekit-preload-data="tap">✏️</a
+      >
     </div>
   </div>
   <div class="habit-grid-container">
@@ -101,6 +105,6 @@ while (currentDate <= today) {
     grid-auto-flow: column;
     grid-auto-columns: 16px;
     gap: 3px;
-    min-width: calc(52 * (16px + 3.5px));
+    min-width: calc(52 * (16px + 3px));
   }
 </style>

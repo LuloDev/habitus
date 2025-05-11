@@ -27,7 +27,7 @@ export const CreateHabitSchema = v.object({
 	type: HabitType,
 	frequencyCount: v.optional(v.number()),
 	goalCount: v.optional(v.number()),
-	goalMeasure: GoalMeasureType,
+	goalMeasure: v.optional(GoalMeasureType),
 });
 
 export type CreateHabitDto = v.InferInput<typeof CreateHabitSchema>;
