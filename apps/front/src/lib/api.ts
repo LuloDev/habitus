@@ -1,7 +1,10 @@
 import type {
 	CreateHabitDto,
+	CreateHabitInstanceDto,
+	HabitInstanceDto,
 	HabitWithInstancesDto,
 	UpdateHabitDto,
+	UpdateHabitInstanceDto,
 } from "@habitus/validation";
 import { error } from "@sveltejs/kit";
 
@@ -80,6 +83,83 @@ export const updateHabit = async (id: string, habit: UpdateHabitDto) => {
 		},
 	});
 	const result: ApiResponse<HabitWithInstancesDto> = await response.json();
+	if (result.status === "error") {
+		throw error(500, result.message);
+	}
+	return result.data;
+};
+
+export const getHabitInstances = async (habitId: string, date: Date | null) => {
+	//format YYYY-MM-DD
+	const dateString = date ? date.toISOString().split("T")[0] : undefined;
+	const queryString = dateString ? `?date=${dateString}` : "";
+	const response = await fetch(
+		`${API_URL}/habits/${habitId}/instances${queryString}`,
+		{
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		},
+	);
+	const result: ApiResponse<HabitInstanceDto[]> = await response.json();
+	if (result.status === "error") {
+		throw error(500, result.message);
+	}
+	return result.data;
+};
+
+export const createHabitInstance = async (
+	habitId: string,
+	instance: CreateHabitInstanceDto,
+) => {
+	const response = await fetch(`${API_URL}/habits/${habitId}/instances`, {
+		method: "POST",
+		body: JSON.stringify(instance),
+		headers: {
+			"Content-Type": "application/json",
+		},
+	});
+	const result: ApiResponse<HabitInstanceDto> = await response.json();
+	if (result.status === "error") {
+		throw error(500, result.message);
+	}
+	return result.data;
+};
+
+export const updateHabitInstance = async (
+	habitId: string,
+	instanceId: string,
+	instance: UpdateHabitInstanceDto,
+) => {
+	const response = await fetch(
+		`${API_URL}/habits/${habitId}/instances/${instanceId}`,
+		{
+			method: "PUT",
+			body: JSON.stringify(instance),
+			headers: {
+				"Content-Type": "application/json",
+			},
+		},
+	);
+	const result: ApiResponse<HabitInstanceDto> = await response.json();
+	if (result.status === "error") {
+		throw error(500, result.message);
+	}
+	return result.data;
+};
+
+export const deleteHabitInstance = async (
+	habitId: string,
+	instanceId: string,
+) => {
+	const response = await fetch(
+		`${API_URL}/habits/${habitId}/instances/${instanceId}`,
+		{
+			method: "DELETE",
+		},
+	);
+	const result: ApiResponse<HabitInstanceDto> = await response.json();
 	if (result.status === "error") {
 		throw error(500, result.message);
 	}
