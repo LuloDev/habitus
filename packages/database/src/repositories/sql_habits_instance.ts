@@ -85,7 +85,17 @@ export class SqlHabitsInstance {
 		);
 	}
 
-	async findAll(search: Prisma.HabitInstanceWhereInput) {
+	async findAll(search: Prisma.HabitInstanceWhereInput, date: Date | null) {
+		if (date) {
+			const endDate = new Date(date.getTime());
+			endDate.setHours(23, 59, 59, 999);
+			const startDate = new Date(date.getTime());
+			startDate.setHours(0, 0, 0, 0);
+			search.date = {
+				gte: startDate,
+				lte: endDate,
+			};
+		}
 		return this.handler.handle(async () => {
 			const result = await db.habitInstance.findMany({ where: search });
 			return result.map((habit) =>
