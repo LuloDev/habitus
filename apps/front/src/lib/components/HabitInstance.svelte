@@ -1,17 +1,88 @@
 <script lang="ts">
-import type { HabitInstanceDto } from "@habitus/validation";
+import { createHabitInstance } from "$lib/api";
+import type {
+	CreateHabitInstanceDto,
+	HabitDto,
+	HabitInstanceDto,
+} from "@habitus/validation";
 
-export let index: number;
-export let typeHabit: string;
-export let day: { date: Date; instances: HabitInstanceDto[] | null };
+let { index, day, habit, instances } = $props<{
+	index: number;
+	day: Date;
+	instances: HabitInstanceDto[] | null;
+	habit: HabitDto;
+}>();
 
-const level = day.instances ? day.instances.length : 0;
+let isCompleted = $derived(!!(instances && instances.length > 0));
+let isLoading = $state(false);
+
+let level = $derived.by(() => {
+	//TODO CREATE A ALGORITHM FOR COMPLETION LEVEL
+	if (!habit) return 0;
+
+	if (isCompleted) {
+		if (
+			(habit.goalMeasure === "TIMES" && habit.goalCount === 1) ||
+			!habit.goalMeasure ||
+			!habit.goalCount
+		) {
+			return 4;
+		}
+		return instances?.length;
+	}
+	return 0;
+});
+
+async function handleClick() {
+	if (isLoading || !habit) return;
+
+	isLoading = true;
+	const tempId = `temp-${crypto.randomUUID()}`;
+
+	const dayClone = new Date(day);
+	const now = new Date();
+	dayClone.setHours(now.getHours());
+	dayClone.setMinutes(now.getMinutes());
+	dayClone.setSeconds(now.getSeconds());
+	dayClone.setMilliseconds(now.getMilliseconds());
+
+	const newInstanceData: CreateHabitInstanceDto = {
+		date: dayClone.toISOString(),
+		goalCount: 1,
+		completed: true,
+		notes: null,
+	};
+	const newOptimisticInstance: HabitInstanceDto = {
+		...newInstanceData,
+		id: tempId,
+		habitId: habit.id,
+		date: dayClone,
+	};
+
+	habit.instances.push(newOptimisticInstance);
+	try {
+		const result = await createHabitInstance(habit.id, newInstanceData);
+		habit.instances = habit.instances.filter(
+			(i) => i.id !== newOptimisticInstance.id,
+		);
+		if (result.status === "success") {
+			habit.instances.push(result.data);
+		}
+	} catch (e) {
+		habit.instances = habit.instances.filter(
+			(i) => i.id !== newOptimisticInstance.id,
+		);
+	}
+
+	isLoading = false;
+}
 </script>
 
-<div
+<button
+  aria-label="Day {day.getDate()}"
   class="day-square"
-  class:good={typeHabit === "GOOD"}
-  class:bad={typeHabit === "BAD"}
+  class:good={habit.type === "GOOD"}
+  class:bad={habit.type === "BAD"}
   class:neutral={level < 0.5 && level >= 0}
   class:level-1={level < 1 && level >= 0.5}
   class:level-2={level < 2 && level >= 1}
@@ -19,8 +90,9 @@ const level = day.instances ? day.instances.length : 0;
   class:level-4={level >= 3}
   data-day-square-index={index}
   data-day-square-level={level}
-  data-day-square-title="Day {day.date.getDate()}"
-></div>
+  data-day-square-title="Day {day.getDate()}"
+  onclick={handleClick}
+></button>
 
 <style>
   .day-square {

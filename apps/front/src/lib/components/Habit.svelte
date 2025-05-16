@@ -1,35 +1,38 @@
 <script lang="ts">
-import type {
-	HabitInstanceDto,
-	HabitWithInstancesDto,
-} from "@habitus/validation";
+import type { HabitInstanceDto } from "@habitus/validation";
 import HabitInstance from "./HabitInstance.svelte";
 
-export let habit: HabitWithInstancesDto;
-const days: { date: Date; instances: HabitInstanceDto[] | null }[] = [];
+const { habit } = $props();
 
-const startDate = new Date();
-startDate.setFullYear(startDate.getFullYear() - 1);
+const daysState = $derived.by(() => {
+	const days: { date: Date; instances: HabitInstanceDto[] | null }[] = [];
 
-startDate.setDate(startDate.getDate() - startDate.getDay());
-startDate.setHours(0, 0, 0, 0);
+	const startDate = new Date();
+	startDate.setFullYear(startDate.getFullYear() - 1);
 
-const today = new Date();
-today.setHours(0, 0, 0, 0);
-const currentDate = new Date(startDate);
+	startDate.setDate(startDate.getDate() - startDate.getDay());
+	startDate.setHours(0, 0, 0, 0);
 
-while (currentDate <= today) {
-	const instancesForDay = habit.instances.filter((instance) => {
-		const instanceDate = new Date(instance.date);
-		instanceDate.setHours(0, 0, 0, 0);
-		return instanceDate.getTime() === currentDate.getTime();
-	});
-	days.push({
-		date: new Date(currentDate),
-		instances: instancesForDay.length > 0 ? instancesForDay : null,
-	});
-	currentDate.setDate(currentDate.getDate() + 1);
-}
+	const today = new Date();
+	today.setHours(0, 0, 0, 0);
+	const currentDate = new Date(startDate);
+
+	while (currentDate <= today) {
+		const instancesForDay = habit.instances.filter(
+			(instance: HabitInstanceDto) => {
+				const instanceDate = new Date(instance.date);
+				instanceDate.setHours(0, 0, 0, 0);
+				return instanceDate.getTime() === currentDate.getTime();
+			},
+		);
+		days.push({
+			date: new Date(currentDate),
+			instances: instancesForDay,
+		});
+		currentDate.setDate(currentDate.getDate() + 1);
+	}
+	return days;
+});
 </script>
 
 <div class="habit-entry" data-habit-id={habit.id}>
@@ -46,8 +49,13 @@ while (currentDate <= today) {
   </div>
   <div class="habit-grid-container">
     <div class="habit-grid">
-      {#each days as day, index}
-        <HabitInstance typeHabit={habit.type} {index} {day} />
+      {#each daysState as day, index}
+        <HabitInstance
+          {index}
+          day={day.date}
+          {habit}
+          instances={day.instances}
+        />
       {/each}
     </div>
   </div>

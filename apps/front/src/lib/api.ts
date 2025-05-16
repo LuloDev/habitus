@@ -121,10 +121,7 @@ export const createHabitInstance = async (
 		},
 	});
 	const result: ApiResponse<HabitInstanceDto> = await response.json();
-	if (result.status === "error") {
-		throw error(500, result.message);
-	}
-	return result.data;
+	return result;
 };
 
 export const updateHabitInstance = async (

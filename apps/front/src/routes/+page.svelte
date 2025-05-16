@@ -2,7 +2,9 @@
 import Habit from "$lib/components/Habit.svelte";
 import type { HabitWithInstancesDto } from "@habitus/validation";
 
-export let data: { habits: HabitWithInstancesDto[] };
+const { data } = $props<{ data: { habits: HabitWithInstancesDto[] } }>();
+
+const habitList = $state(data.habits);
 </script>
 
 <header>
@@ -14,8 +16,8 @@ export let data: { habits: HabitWithInstancesDto[] };
   >
 </header>
 <main class="habits-list" id="habitsList">
-  {#each data.habits as habit}
-    <Habit {habit} />
+  {#each habitList as _habit, index}
+    <Habit habit={habitList[index]} />
   {/each}
 </main>
 
