@@ -1,14 +1,11 @@
-import type {
-	CreateHabitInstanceDto,
-	UpdateHabitInstanceDto,
-} from "@habitus/validation";
-import type { Prisma } from "../../generated/prisma";
-import db from "../../prisma_client";
+import type { CreateHabitInstanceDto, UpdateHabitInstanceDto } from "$core";
+import type { HabitInstance, Prisma } from "generated/prisma";
 import {
 	createHabitInstanceDtoToHabitInstanceEntity,
 	habitInstanceUpdateDtoToHabitInstanceEntity,
 } from "../adapters/habit_instance_dto_to_habit_instance_entity";
 import { habitInstanceEntityToHabitInstanceDto } from "../adapters/habit_instance_entity_to_habit_instance_dto";
+import db from "../prisma_client";
 import { HandlerPrisma } from "../utils/handle_prisma";
 
 export class SqlHabitsInstance {
@@ -98,7 +95,7 @@ export class SqlHabitsInstance {
 		}
 		return this.handler.handle(async () => {
 			const result = await db.habitInstance.findMany({ where: search });
-			return result.map((habit) =>
+			return result.map((habit: HabitInstance) =>
 				habitInstanceEntityToHabitInstanceDto(habit),
 			);
 		});

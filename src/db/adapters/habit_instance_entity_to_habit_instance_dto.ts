@@ -1,5 +1,5 @@
-import type { HabitInstanceDto } from "@habitus/validation";
-import type { HabitInstance } from "../../generated/prisma";
+import type { HabitInstanceDto } from "$core";
+import type { HabitInstance } from "generated/prisma";
 
 export const habitInstanceEntityToHabitInstanceDto = (
 	entity: HabitInstance,

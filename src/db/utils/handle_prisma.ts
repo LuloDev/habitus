@@ -3,9 +3,9 @@ import {
 	DependencyConflictError,
 	NotFoundError,
 	UnknownError,
-} from "@habitus/core";
+} from "$core";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { type Result, err, ok } from "neverthrow";
-import { PrismaClientKnownRequestError } from "../../generated/prisma/runtime/library";
 
 export class HandlerPrisma {
 	constructor(private readonly entityName: string) {}
