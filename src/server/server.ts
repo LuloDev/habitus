@@ -33,13 +33,3 @@ app.onError((err: Error, c: Context) => {
 	}
 	return c.json(errorResponse(err.message, err.stack), 500);
 });
-
-serve(
-	{
-		fetch: app.fetch,
-		port: 3001,
-	},
-	(info) => {
-		console.log(`Server is running on http://localhost:${info.port}`);
-	},
-);

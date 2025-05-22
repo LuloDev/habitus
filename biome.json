@@ -7,7 +7,22 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": []
+		"ignore": [
+			"generated/prisma/",
+			"node_modules",
+			"test-results",
+			".output",
+			"/build",
+			".svelte-kit",
+			"build",
+			"dist",
+			"public/build",
+			".env",
+			".env.*",
+			"!.env.example",
+			"!.env.test",
+			"src/lib/paraglide/"
+		]
 	},
 	"formatter": {
 		"enabled": true,
@@ -22,6 +37,19 @@
 			"recommended": true
 		}
 	},
+	"overrides": [
+		{
+			"include": ["*.svelte"],
+			"linter": {
+				"rules": {
+					"style": {
+						"useConst": "off",
+						"useImportType": "off"
+					}
+				}
+			}
+		}
+	],
 	"javascript": {
 		"formatter": {
 			"quoteStyle": "double"
