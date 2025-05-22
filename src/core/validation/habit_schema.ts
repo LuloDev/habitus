@@ -44,7 +44,6 @@ export const HabitSchema = v.object({
 	description: v.string(),
 	emoji: v.nullable(v.string()),
 	type: HabitType,
-	frequencyCount: v.number(),
 	goalCount: v.number(),
 	goalMeasure: v.nullable(GoalMeasureType),
 });
