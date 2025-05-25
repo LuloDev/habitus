@@ -10,6 +10,12 @@
     "dev:web": "pnpm run --filter web dev",
     "dev:api": "pnpm run --filter api dev",
     "dev:apps": "pnpm run --filter api --filter front dev",
+    "db:generate": "pnpm run --filter database db:generate",
+    "db:migrate": "pnpm run --filter database db:migrate",
+    "db:reset": "pnpm run --filter database db:reset",
+    "db:deploy": "pnpm run --filter database db:deploy",
+    "db:studio": "pnpm run --filter database db:studio",
+    "db:seed": "pnpm run --filter database db:seed",
     "lint": "pnpm run --parallel lint",
     "lint-fix": "pnpm run --parallel lint-fix"
   },
