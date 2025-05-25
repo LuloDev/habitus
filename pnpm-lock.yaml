@@ -62,7 +62,7 @@ importers:
         specifier: ^4.7.1
         version: 4.19.3
 
-  apps/front:
+  apps/web:
     dependencies:
       '@habitus/validation':
         specifier: workspace:^
