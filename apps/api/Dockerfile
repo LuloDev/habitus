@@ -4,7 +4,6 @@ WORKDIR /app
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
 COPY . .
-COPY entrypoint.sh /usr/local/bin/
 
 RUN pnpm install --frozen-lockfile
 RUN pnpm run db:generate
@@ -15,6 +14,8 @@ WORKDIR /app
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
 COPY --from=builder /app /app
+
+COPY entrypoint.sh /usr/local/bin/
 
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
