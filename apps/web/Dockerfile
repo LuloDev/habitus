@@ -18,4 +18,4 @@ COPY --from=builder /app /app
 
 EXPOSE 3000
 
-CMD ["pnpm", "--filter", "@habitus/web", "preview"]
+CMD ["pnpm", "--filter", "@habitus/web", "run", "preview", "--", "--host"]
