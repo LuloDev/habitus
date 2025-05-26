@@ -22,7 +22,9 @@ export type ErrorResponse = {
 
 export type ApiResponse<T> = SuccessResponse<T> | ErrorResponse;
 
-const API_URL = "http://localhost:3001/api";
+const apiUrl = import.meta.env.VITE_API_URL;
+
+const API_URL = `${apiUrl}/api`;
 
 export const getHabits = async (): Promise<HabitWithInstancesDto[]> => {
 	const response = await fetch(`${API_URL}/habits`);
