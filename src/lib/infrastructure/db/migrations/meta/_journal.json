@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1748480044703,
+      "tag": "0000_true_miek",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1748570242040,
+      "tag": "0001_solid_ricochet",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1748570308979,
+      "tag": "0002_sharp_the_anarchist",
+      "breakpoints": true
+    }
+  ]
+}
