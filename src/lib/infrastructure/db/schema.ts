@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 const timestamps = {
@@ -28,7 +28,7 @@ export const habitsTable = sqliteTable("habits", {
 
 export const habitInstancesTable = sqliteTable("habit_instances", {
   id: int("id").primaryKey({ autoIncrement: true }),
-  habitId: text("habit_id")
+  habitId: int("habit_id")
     .notNull()
     .references(() => habitsTable.id, { onDelete: "cascade" }),
   date: text("date").notNull(),
@@ -38,3 +38,14 @@ export const habitInstancesTable = sqliteTable("habit_instances", {
 
   ...timestamps,
 });
+
+export const habistRelations = relations(habitsTable, ({ many }) => ({
+  habitInstances: many(habitInstancesTable),
+}))
+
+export const habitsInstancesRelations = relations(habitInstancesTable, ({ one }) => ({
+  habit: one(habitsTable, {
+    fields: [habitInstancesTable.habitId],
+    references: [habitsTable.id],
+  }),
+}))

@@ -1,14 +1,10 @@
 import { Elysia, t } from 'elysia';
 import HabitsRoute from '$lib/infrastructure/routes/habits';
+import HabitInstancesRoute from '$lib/infrastructure/routes/habit_instances';
 
 const app = new Elysia({ prefix: '/api' })
   .use(HabitsRoute)
-  .get('/', () => 'hi')
-  .post('/', ({ body }) => body, {
-    body: t.Object({
-      name: t.String()
-    })
-  })
+  .use(HabitInstancesRoute);
 
 type RequestHandler = (v: { request: Request }) => Response | Promise<Response>
 

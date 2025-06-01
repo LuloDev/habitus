@@ -1,5 +1,5 @@
 import { Elysia, status, t } from "elysia";
-import { CreateHabitSchema, UpdateHabitSchema, type UpdateHabit } from "$lib/core/domain/habit";
+import { CreateHabitSchema, UpdateHabitSchema } from "$lib/core/domain/habit";
 import { CreateHabitUseCase } from "$lib/application/use-cases/create_habit";
 import { SqliteHabits } from "../db/sqlite_habits";
 import { GetAllHabitsUseCase } from "$lib/application/use-cases/get_all_habits";
