@@ -18,7 +18,7 @@ export const UpdateHabitInstanceSchema = t.Object({
 export const HabitInstanceSchema = t.Object({
   ...UpdateHabitInstanceSchema.properties,
   habitId: t.Union([t.Number(), t.Null()]),
-  date: t.Union([t.String(), t.Null()]),
+  date: t.String(),
   completed: t.Union([t.Number(), t.Null()]),
   targetValue: t.Union([t.Number(), t.Null()]),
   notes: t.Union([t.String(), t.Null()]),
