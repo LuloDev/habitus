@@ -1,8 +1,16 @@
 <script lang="ts">
+  import type { Habit } from "$lib/core/domain/habit";
   import type { HabitInstance } from "$lib/core/domain/habit_instance";
   import Day from "./Day.svelte";
 
-  const { habit } = $props();
+  const { habit, handleClick } = $props<{
+    habit: Habit;
+    handleClick: (
+      habit: Habit,
+      day: Date,
+      instance: HabitInstance[] | null,
+    ) => void;
+  }>();
 
   const daysState = $derived.by(() => {
     const days: { date: Date; instances: HabitInstance[] | null }[] = [];
@@ -50,7 +58,13 @@
   <div class="habit-grid-container">
     <div class="habit-grid">
       {#each daysState as day, index}
-        <Day {index} day={day.date} {habit} instances={day.instances} />
+        <Day
+          {index}
+          {habit}
+          day={day.date}
+          instances={day.instances}
+          {handleClick}
+        />
       {/each}
     </div>
   </div>

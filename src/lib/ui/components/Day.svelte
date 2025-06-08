@@ -2,77 +2,28 @@
   import type { Habit } from "$lib/core/domain/habit";
   import type { HabitInstance } from "$lib/core/domain/habit_instance";
 
-  let { index, day, habit, instances } = $props<{
+  let { index, day, habit, instances, handleClick } = $props<{
     index: number;
     day: Date;
     instances: HabitInstance[] | null;
     habit: Habit;
+    handleClick: (
+      habit: Habit,
+      day: Date,
+      instance: HabitInstance[] | null,
+    ) => void;
   }>();
 
   let isCompleted = $derived(!!(instances && instances.length > 0));
-  let isLoading = $state(false);
 
   let level = $derived.by(() => {
-    //TODO CREATE A ALGORITHM FOR COMPLETION LEVEL
     if (!habit) return 0;
 
     if (isCompleted) {
-      if (
-        (habit.goalMeasure === "TIMES" && habit.goalCount === 1) ||
-        !habit.goalMeasure ||
-        !habit.goalCount
-      ) {
-        return 4;
-      }
-      return instances?.length;
+      return 4;
     }
     return 0;
   });
-
-  async function handleClick() {
-    if (isLoading || !habit) return;
-
-    isLoading = true;
-    const tempId = `temp-${crypto.randomUUID()}`;
-
-    const dayClone = new Date(day);
-    const now = new Date();
-    dayClone.setHours(now.getHours());
-    dayClone.setMinutes(now.getMinutes());
-    dayClone.setSeconds(now.getSeconds());
-    dayClone.setMilliseconds(now.getMilliseconds());
-
-    /*
-    const newInstanceData: CreateHabitInstanceDto = {
-      date: dayClone.toISOString(),
-      goalCount: 1,
-      completed: true,
-      notes: null,
-    };
-    const newOptimisticInstance: HabitInstanceDto = {
-      ...newInstanceData,
-      id: tempId,
-      habitId: habit.id,
-      date: dayClone,
-    };
-
-    habit.instances.push(newOptimisticInstance);
-    try {
-      const result = await createHabitInstance(habit.id, newInstanceData);
-      habit.instances = habit.instances.filter(
-        (i) => i.id !== newOptimisticInstance.id,
-      );
-      if (result.status === "success") {
-        habit.instances.push(result.data);
-      }
-    } catch (e) {
-      habit.instances = habit.instances.filter(
-        (i) => i.id !== newOptimisticInstance.id,
-      );
-    } */
-
-    isLoading = false;
-  }
 </script>
 
 <button
@@ -88,7 +39,7 @@
   data-day-square-index={index}
   data-day-square-level={level}
   data-day-square-title="Day {day.getDate()}"
-  onclick={handleClick}
+  onclick={handleClick(habit, day, instances)}
 ></button>
 
 <style>

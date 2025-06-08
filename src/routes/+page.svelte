@@ -1,11 +1,58 @@
 <script lang="ts">
   import type { Habit } from "$lib/core/domain/habit";
+  import type {
+    CreateHabitInstance,
+    HabitInstance,
+  } from "$lib/core/domain/habit_instance";
   import HabitCard from "$lib/ui/components/Habit.svelte";
   import type { PageProps } from "./$types";
 
   let { data }: PageProps = $props<{ data: { habits: Habit[] } }>();
 
   const habitList = $state(data.habits);
+
+  const handleClick = async (
+    habit: Habit,
+    day: Date,
+    instances: HabitInstance[] | null,
+  ) => {
+    const habitId = habit.id;
+    if (!instances || instances.length === 0) {
+      const newInstance: CreateHabitInstance = {
+        date: day.toISOString(),
+        completed: 1,
+      };
+      const response = await fetch("/api/habits/" + habitId + "/instances", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newInstance),
+      });
+      if (response.ok) {
+        const newInstance = await response.json();
+        habit.habitInstances.push(newInstance);
+      }
+    } else {
+      const response = await fetch(
+        "/api/habits/" + habitId + "/instances/" + instances[0].id,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      if (response.ok) {
+        const newInstance = await response.json();
+        habit.habitInstances = habit.habitInstances.filter(
+          (instance: HabitInstance) => {
+            return instance.id !== newInstance.id;
+          },
+        );
+      }
+    }
+  };
 </script>
 
 <header>
@@ -18,7 +65,7 @@
 </header>
 <main class="habits-list" id="habitsList">
   {#each habitList as _habit, index}
-    <HabitCard habit={habitList[index]} />
+    <HabitCard habit={habitList[index]} {handleClick} />
   {/each}
 </main>
 
