@@ -1,9 +1,9 @@
 import type { CreateHabit, Habit, UpdateHabit } from "$lib/core/domain/habit";
 import type { HabitRepository } from "$lib/core/ports/habit_repository";
-import { and, between, eq, sql } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { db } from "./drizzle";
 import { ok, err, Result } from "neverthrow";
-import { habitInstancesTable, habitsTable } from "./schema";
+import { habitsTable } from "./schema";
 
 export class SqliteHabits implements HabitRepository {
 

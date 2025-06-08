@@ -1,4 +1,5 @@
 import { t } from 'elysia';
+import { HabitInstanceSchema } from './habit_instance';
 
 export const HabitTypeEnum = t.UnionEnum(['GOOD', 'BAD']);
 
@@ -23,6 +24,7 @@ export const HabitSchema = t.Object({
   emoji: t.Union([t.String(), t.Null()]),
   dailyTarget: t.Union([t.Number(), t.Null()]),
   targetUnit: t.Union([t.String(), t.Null()]),
+  habitInstances: t.Array(HabitInstanceSchema),
 });
 
 export type HabitType = typeof HabitTypeEnum.static;

@@ -32,9 +32,9 @@ export class SqliteHabitInstances implements HabitInstanceRepository {
     }
   }
 
-  async delete(id: number): Promise<Result<HabitInstance, Error>> {
+  async delete(habitId: number, id: number): Promise<Result<HabitInstance, Error>> {
     try {
-      const [deleted] = await db.delete(habitInstancesTable).where(eq(habitInstancesTable.id, id)).returning();
+      const [deleted] = await db.delete(habitInstancesTable).where(and(eq(habitInstancesTable.id, id), eq(habitInstancesTable.habitId, habitId))).returning();
       return deleted ? ok(deleted) : err(new Error(`Habit with ID ${id} not found for delete`));
     } catch (e) {
       return err(new Error("Database error during delete: " + (e as Error).message));
