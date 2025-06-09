@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - '.github/workflows/docker-build-push.yml'
+      - '.github/workflows/docker-build.yml'
       - 'Dockerfile'
       - '**/*.ts'
       - '**/*.svelte'
