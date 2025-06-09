@@ -5,9 +5,11 @@ on:
     branches:
       - main
     paths:
-      - 'apps/api/**'
-      - 'apps/web/**'
       - '.github/workflows/docker-build-push.yml'
+      - 'Dockerfile'
+      - '**/*.ts'
+      - '**/*.svelte'
+      - '**/*.js'
 
 jobs:
   build-and-push:
@@ -30,33 +32,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata (tags, labels) for API
-        id: meta-api
-        uses: docker/metadata-action@v5
-        with:
-          images: ghcr.io/${{ github.repository }}-api
-
-      - name: Extract metadata (tags, labels) for Web
+      - name: Extract metadata (tags, labels)
         id: meta-web
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository }}-web
+          images: ghcr.io/${{ github.repository }}
 
-      - name: Build and push API image
+      - name: Build and push image
         uses: docker/build-push-action@v5
         with:
           context: ./
-          file: ./apps/api/Dockerfile
+          file: Dockerfile
           push: true
           tags: ${{ steps.meta-api.outputs.tags }}
           labels: ${{ steps.meta-api.outputs.labels }}
-
-      - name: Build and push Web image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./
-          file: ./apps/web/Dockerfile
-          push: true
-          tags: ${{ steps.meta-web.outputs.tags }}
-          labels: ${{ steps.meta-web.outputs.labels }}
-
