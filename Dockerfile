@@ -23,6 +23,7 @@ COPY package.json .
 COPY --from=build /usr/src/app/build ./build
 COPY --from=build /usr/src/app/entrypoint.sh .
 RUN chmod +x ./entrypoint.sh
+RUN mkdir -p ./data
 
 EXPOSE 3000
 
