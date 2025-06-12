@@ -14,15 +14,24 @@
     ) => void;
   }>();
 
-  let isCompleted = $derived(!!(instances && instances.length > 0));
-
   let level = $derived.by(() => {
     if (!habit) return 0;
 
-    if (isCompleted) {
-      return 4;
+    if (habit.dailyTarget === null) {
+      if (instances === null || instances.length === 0) {
+        return 0;
+      }
+      return instances.some((i: HabitInstance) => i.completed) ? 1 : 0;
     }
-    return 0;
+    if (instances === null || instances.length === 0) {
+      return 0;
+    }
+    const total = instances.reduce(
+      (acc: number, curr: HabitInstance) =>
+        acc + (curr.targetValue ? curr.targetValue : 0),
+      0,
+    );
+    return total / habit.dailyTarget;
   });
 </script>
 
@@ -31,11 +40,11 @@
   class="day-square"
   class:good={habit.type === "GOOD"}
   class:bad={habit.type === "BAD"}
-  class:neutral={level < 0.5 && level >= 0}
-  class:level-1={level < 1 && level >= 0.5}
-  class:level-2={level < 2 && level >= 1}
-  class:level-3={level < 3 && level >= 2}
-  class:level-4={level >= 3}
+  class:neutral={level === 0}
+  class:level-1={level < 0.22 && level >= 0.1}
+  class:level-2={level < 0.8 && level >= 0.5}
+  class:level-3={level < 0.95 && level >= 0.8}
+  class:level-4={level >= 0.95}
   data-day-square-index={index}
   data-day-square-level={level}
   data-day-square-title="Day {day.getDate()}"
