@@ -51,7 +51,7 @@
       <a
         title="Edit"
         href="/habits/{habit.id}"
-        data-sveltekit-preload-data="tap">✏️</a
+        data-sveltekit-preload-data="tap">Edit</a
       >
     </div>
   </div>
