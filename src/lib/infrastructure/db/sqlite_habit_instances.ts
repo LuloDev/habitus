@@ -11,6 +11,7 @@ export class SqliteHabitInstances implements HabitInstanceRepository {
       const [created] = await db.insert(habitInstancesTable).values({
         habitId,
         ...habitInstance,
+        date: habitInstance.date.toISOString(),
       }).returning();
       return created ? ok(created) : err(new Error("Habit creation failed"));
     } catch (e) {
@@ -22,7 +23,7 @@ export class SqliteHabitInstances implements HabitInstanceRepository {
   async update(habitInstance: UpdateHabitInstance): Promise<Result<HabitInstance, Error>> {
     try {
       const [updated] = await db.update(habitInstancesTable)
-        .set({ ...habitInstance, updatedAt: sql`CURRENT_TIMESTAMP` })
+        .set({ ...habitInstance, date: habitInstance.date.toISOString(), updatedAt: sql`CURRENT_TIMESTAMP` })
         .where(eq(habitInstancesTable.id, habitInstance.id))
         .returning();
 

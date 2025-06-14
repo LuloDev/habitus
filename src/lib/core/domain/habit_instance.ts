@@ -2,7 +2,7 @@ import { t } from 'elysia';
 
 
 export const HabitInstanceBaseSchema = t.Object({
-  date: t.String(),
+  date: t.Date(),
   completed: t.Number(),
   targetValue: t.Optional(t.Number()),
   notes: t.Optional(t.String()),
