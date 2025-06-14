@@ -10,8 +10,8 @@ export class SqlAdapter {
       name: habits.name,
       description: habits.description,
       type: habits.type,
-      dailyTarget: habits.daily_target,
-      targetUnit: habits.target_unit,
+      dailyTarget: habits.dailyTarget,
+      targetUnit: habits.targetUnit,
       habitInstances: habits.habitInstances?.map((habitInstance: any) => SqlAdapter.instancesToDto(habitInstance)),
     }
   }
@@ -19,10 +19,10 @@ export class SqlAdapter {
   static instancesToDto(habitInstances: any): HabitInstance {
     return {
       id: habitInstances.id,
-      habitId: habitInstances.habit_id,
+      habitId: habitInstances.habitId,
       date: new Date(habitInstances.date),
       completed: habitInstances.completed,
-      targetValue: habitInstances.target_value,
+      targetValue: habitInstances.targetValue,
       notes: habitInstances.notes,
     }
   }
