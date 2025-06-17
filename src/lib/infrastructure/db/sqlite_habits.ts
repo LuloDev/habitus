@@ -41,7 +41,6 @@ export class SqliteHabits implements HabitRepository {
 
   async findAll(): Promise<Result<Habit[], Error>> {
     try {
-      const today = new Date();
       const habits = await db.query.habitsTable.findMany({
         with: {
           habitInstances: true
