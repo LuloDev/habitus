@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Habit } from "$lib/core/domain/habit";
+  import Tooltip from "$lib/ui/components/Tooltip.svelte";
   import type {
     CreateHabitInstance,
     HabitInstance,
@@ -10,6 +11,29 @@
   let { data }: PageProps = $props<{ data: { habits: Habit[] } }>();
 
   const habitList = $state(data.habits);
+  let currentHabit: null | Habit = $state(null);
+  let currentInstance: null | HabitInstance = $state(null);
+  let tooltipTop = $state(0);
+  let tooltipLeft = $state(0);
+
+  const handleMouseLeave = () => {
+    tooltipTop = 0;
+    tooltipLeft = 0;
+    currentHabit = null;
+    currentInstance = null;
+  };
+
+  const handleMouseMove = (
+    top: number,
+    left: number,
+    habit: Habit,
+    instance: HabitInstance,
+  ) => {
+    tooltipTop = top - 70;
+    tooltipLeft = left;
+    currentHabit = habit;
+    currentInstance = instance;
+  };
 
   const handleClick = async (
     habit: Habit,
@@ -19,7 +43,7 @@
     const habitId = habit.id;
     if (!instances || instances.length === 0) {
       const newInstance: CreateHabitInstance = {
-        date: day.toISOString(),
+        date: day,
         completed: 1,
       };
       const response = await fetch("/api/habits/" + habitId + "/instances", {
@@ -55,6 +79,17 @@
   };
 </script>
 
+{#if currentHabit && currentInstance}
+  <Tooltip
+    dailyTarget={(currentHabit as Habit).dailyTarget}
+    actualValue={(currentInstance as HabitInstance).targetValue}
+    isComplete={(currentInstance as HabitInstance).completed === 1}
+    day={(currentInstance as HabitInstance).date}
+    top={tooltipTop}
+    left={tooltipLeft}
+  />
+{/if}
+
 <header>
   <a
     data-sveltekit-preload-data="tap"
@@ -65,7 +100,12 @@
 </header>
 <main class="habits-list" id="habitsList">
   {#each habitList as _habit, index}
-    <HabitCard habit={habitList[index]} {handleClick} />
+    <HabitCard
+      habit={habitList[index]}
+      {handleClick}
+      {handleMouseMove}
+      {handleMouseLeave}
+    />
   {/each}
 </main>
 

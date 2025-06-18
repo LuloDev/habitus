@@ -2,7 +2,15 @@
   import type { Habit } from "$lib/core/domain/habit";
   import type { HabitInstance } from "$lib/core/domain/habit_instance";
 
-  let { index, day, habit, instances, handleClick } = $props<{
+  let {
+    index,
+    day,
+    habit,
+    instances,
+    handleClick,
+    handleMouseMove,
+    handleMouseLeave,
+  } = $props<{
     index: number;
     day: Date;
     instances: HabitInstance[] | null;
@@ -12,7 +20,27 @@
       day: Date,
       instance: HabitInstance[] | null,
     ) => void;
+    handleMouseMove: (
+      top: number,
+      left: number,
+      habit: Habit,
+      instance: HabitInstance,
+    ) => void;
+    handleMouseLeave: () => void;
   }>();
+
+  let buttonEl: HTMLButtonElement;
+
+  const getTotalValue = (instances: HabitInstance[] | null) => {
+    if (instances === null || instances.length === 0) {
+      return 0;
+    }
+    return instances.reduce(
+      (acc: number, curr: HabitInstance) =>
+        acc + (curr.targetValue ? curr.targetValue : 0),
+      0,
+    );
+  };
 
   let level = $derived.by(() => {
     if (!habit) return 0;
@@ -26,16 +54,13 @@
     if (instances === null || instances.length === 0) {
       return 0;
     }
-    const total = instances.reduce(
-      (acc: number, curr: HabitInstance) =>
-        acc + (curr.targetValue ? curr.targetValue : 0),
-      0,
-    );
+    const total = getTotalValue(instances);
     return total / habit.dailyTarget;
   });
 </script>
 
 <button
+  bind:this={buttonEl}
   aria-label="Day {day.getDate()}"
   class="day-square"
   class:good={habit.type === "GOOD"}
@@ -49,6 +74,14 @@
   data-day-square-level={level}
   data-day-square-title="Day {day.getDate()}"
   onclick={handleClick(habit, day, instances)}
+  onmouseleave={() => handleMouseLeave()}
+  onmouseenter={() =>
+    handleMouseMove(
+      buttonEl?.getBoundingClientRect().top,
+      buttonEl?.getBoundingClientRect().left,
+      habit,
+      instances[0],
+    )}
 ></button>
 
 <style>

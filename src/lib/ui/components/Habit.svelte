@@ -3,13 +3,20 @@
   import type { HabitInstance } from "$lib/core/domain/habit_instance";
   import Day from "./Day.svelte";
 
-  const { habit, handleClick } = $props<{
+  const { habit, handleClick, handleMouseMove, handleMouseLeave } = $props<{
     habit: Habit;
     handleClick: (
       habit: Habit,
       day: Date,
       instance: HabitInstance[] | null,
     ) => void;
+    handleMouseMove: (
+      top: number,
+      left: number,
+      habit: Habit,
+      instance: HabitInstance,
+    ) => void;
+    handleMouseLeave: () => void;
   }>();
 
   const daysState = $derived.by(() => {
@@ -64,6 +71,8 @@
           day={day.date}
           instances={day.instances}
           {handleClick}
+          {handleMouseMove}
+          {handleMouseLeave}
         />
       {/each}
     </div>
