@@ -1,12 +1,14 @@
 <script lang="ts">
-  let { day, dailyTarget, actualValue, isComplete, top, left } = $props<{
-    day: Date | string;
-    dailyTarget: number | null;
-    actualValue: number | null;
-    isComplete: boolean | null;
-    top: number;
-    left: number;
-  }>();
+  let { day, dailyTarget, actualValue, isComplete, top, left, targetUnit } =
+    $props<{
+      day: Date | string;
+      dailyTarget: number | null;
+      actualValue: number | null;
+      targetUnit: string | null;
+      isComplete: boolean | null;
+      top: number;
+      left: number;
+    }>();
   let dayState = $state(day);
   const date = $derived.by(() => {
     if (typeof dayState === "string") {
@@ -33,6 +35,7 @@
   {#if dailyTarget !== null}
     <span class="tooltip-progress">
       Progreso: {actualValue} / {dailyTarget}
+      {targetUnit}
     </span>
   {:else}
     <span class="tooltip-progress">

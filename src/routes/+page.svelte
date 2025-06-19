@@ -82,6 +82,7 @@
 {#if currentHabit && currentInstance}
   <Tooltip
     dailyTarget={(currentHabit as Habit).dailyTarget}
+    targetUnit={(currentHabit as Habit).targetUnit}
     actualValue={(currentInstance as HabitInstance).targetValue}
     isComplete={(currentInstance as HabitInstance).completed === 1}
     day={(currentInstance as HabitInstance).date}
