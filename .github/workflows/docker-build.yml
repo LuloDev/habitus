@@ -2,14 +2,8 @@ name: Build and Push Docker Images
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - '.github/workflows/docker-build.yml'
-      - 'Dockerfile'
-      - '**/*.ts'
-      - '**/*.svelte'
-      - '**/*.js'
+    tags:
+      - '*'
 
 jobs:
   build-and-push:
