@@ -9,6 +9,8 @@
       habit: Habit,
       day: Date,
       instance: HabitInstance[] | null,
+      top: number,
+      left: number,
     ) => void;
     handleMouseMove: (
       top: number,

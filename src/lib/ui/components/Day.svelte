@@ -19,6 +19,8 @@
       habit: Habit,
       day: Date,
       instance: HabitInstance[] | null,
+      top: number,
+      left: number,
     ) => void;
     handleMouseMove: (
       top: number,
@@ -73,7 +75,14 @@
   data-day-square-index={index}
   data-day-square-level={level}
   data-day-square-title="Day {day.getDate()}"
-  onclick={handleClick(habit, day, instances)}
+  onclick={() =>
+    handleClick(
+      habit,
+      day,
+      instances,
+      buttonEl?.getBoundingClientRect().top,
+      buttonEl?.getBoundingClientRect().left,
+    )}
   onmouseleave={() => handleMouseLeave()}
   onmouseenter={() =>
     handleMouseMove(

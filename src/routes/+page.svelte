@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Habit } from "$lib/core/domain/habit";
   import Tooltip from "$lib/ui/components/Tooltip.svelte";
+  import EditInstance from "$lib/ui/components/EditInstance.svelte";
   import type {
     CreateHabitInstance,
     HabitInstance,
@@ -15,6 +16,12 @@
   let currentInstance: null | HabitInstance = $state(null);
   let tooltipTop = $state(0);
   let tooltipLeft = $state(0);
+  let editTop = $state(0);
+  let editLeft = $state(0);
+
+  let editDay = $state<Date | null>(null);
+  let editInstances = $state<HabitInstance[] | null>(null);
+  let editHabit = $state<Habit | null>(null);
 
   const handleMouseLeave = () => {
     tooltipTop = 0;
@@ -35,12 +42,51 @@
     currentInstance = instance;
   };
 
+  const handleClose = () => {
+    editLeft = 0;
+    editTop = 0;
+    editDay = null;
+    editInstances = null;
+    editHabit = null;
+  };
+
+  const handleSave = async (day: Date, habit: Habit, value: number) => {
+    const habitId = habit.id;
+    const response = await fetch("/api/habits/" + habitId + "/instances", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        date: day,
+        targetValue: value,
+        completed: 1,
+      }),
+    });
+    if (response.ok) {
+      const newInstance = await response.json();
+      habit.habitInstances.push(newInstance);
+      handleClose();
+    }
+  };
+
   const handleClick = async (
     habit: Habit,
     day: Date,
     instances: HabitInstance[] | null,
+    top: number,
+    left: number,
   ) => {
     const habitId = habit.id;
+
+    if (habit.dailyTarget !== null) {
+      editInstances = instances;
+      editDay = day;
+      editTop = top;
+      editLeft = left;
+      editHabit = habit;
+      return;
+    }
     if (!instances || instances.length === 0) {
       const newInstance: CreateHabitInstance = {
         date: day,
@@ -88,6 +134,18 @@
     day={(currentInstance as HabitInstance).date}
     top={tooltipTop}
     left={tooltipLeft}
+  />
+{/if}
+
+{#if editDay && editInstances && editHabit}
+  <EditInstance
+    day={editDay}
+    habit={editHabit}
+    instances={editInstances}
+    top={editTop}
+    left={editLeft}
+    close={handleClose}
+    save={handleSave}
   />
 {/if}
 
