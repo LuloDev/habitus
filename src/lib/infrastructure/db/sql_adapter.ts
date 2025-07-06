@@ -12,6 +12,8 @@ export class SqlAdapter {
       type: habits.type,
       dailyTarget: habits.dailyTarget,
       targetUnit: habits.targetUnit,
+      integrationType: habits.integrationType,
+      integrationConfig: habits.integrationConfig,
       habitInstances: habits.habitInstances?.map((habitInstance: any) => SqlAdapter.instancesToDto(habitInstance)),
     }
   }

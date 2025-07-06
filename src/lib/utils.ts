@@ -7,6 +7,9 @@ export function transformHabit(form: FormData, id?: number): UpdateHabit | Creat
   const type = (form.get("type") as 'GOOD' | 'BAD');
   const emoji = (form.get("emoji") as string);
   const targetUnit = (form.get("targetUnit") as string);
+  const integrationType = (form.get("integrationType") as string);
+  const entityId = (form.get("entityId") as string);
+  const entityProperty = (form.get("entityProperty") as string);
   const habit: UpdateHabit | CreateHabit = {
     id,
     name,
@@ -27,6 +30,17 @@ export function transformHabit(form: FormData, id?: number): UpdateHabit | Creat
     habit.targetUnit = targetUnit;
   } else {
     habit.targetUnit = null;
+  }
+
+  if (integrationType) {
+    habit.integrationType = integrationType;
+    habit.integrationConfig = {
+      entity_id: entityId,
+      property: entityProperty,
+    };
+  } else {
+    habit.integrationType = null;
+    habit.integrationConfig = null;
   }
   return habit;
 }

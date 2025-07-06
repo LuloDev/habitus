@@ -6,6 +6,8 @@ import { GetAllHabitsUseCase } from "$lib/application/use-cases/get_all_habits";
 import { DeleteHabitUseCase } from "$lib/application/use-cases/delete_habit";
 import { UpdateHabitUseCase } from "$lib/application/use-cases/update_habit";
 import { GetHabitByIdUseCase } from "$lib/application/use-cases/get_habit_by_id";
+import { SyncHabitUseCase } from "$lib/application/use-cases/sync_habit";
+import { SqliteHabitInstances } from "../db/sqlite_habit_instances";
 
 
 const repo = new SqliteHabits();
@@ -14,6 +16,8 @@ const getAllHabitsUseCase = new GetAllHabitsUseCase(repo);
 const deleteHabitUseCase = new DeleteHabitUseCase(repo);
 const updateHabitUseCase = new UpdateHabitUseCase(repo);
 const getHabitByIdUseCase = new GetHabitByIdUseCase(repo);
+const habitInstanceRepo = new SqliteHabitInstances();
+const syncHabitUseCase = new SyncHabitUseCase(repo, habitInstanceRepo);
 
 const routes = new Elysia().group('/habits', (app) =>
   app.post('/', async ({ body }) => {
@@ -65,6 +69,17 @@ const routes = new Elysia().group('/habits', (app) =>
       );
     }, {
       body: UpdateHabitSchema
+    })
+    .post('/:id/sync', async ({ params }) => {
+      const result = await syncHabitUseCase.execute(params.id);
+      return result.match(
+        () => status(200, { message: "Sync successful" }),
+        (err) => status(500, { error: err.message }),
+      );
+    }, {
+      params: t.Object({
+        id: t.Number(),
+      })
     })
 );
 

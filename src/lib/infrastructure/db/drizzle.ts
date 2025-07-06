@@ -1,7 +1,7 @@
 import { drizzle } from 'drizzle-orm/bun-sqlite';
 import { Database } from 'bun:sqlite';
 import * as schema from './schema';
-import { config } from '../../../env';
+import { env } from '../../../env';
 
-const sqlite = new Database(config.dbFileName);
-export const db = drizzle({ client: sqlite, schema });
+const sqlite = new Database(env.dbFileName);
+export const db = drizzle({ client: sqlite, schema, logger: true });

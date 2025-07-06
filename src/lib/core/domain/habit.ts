@@ -10,6 +10,8 @@ export const HabitBaseSchema = t.Object({
   type: HabitTypeEnum,
   dailyTarget: t.Optional(t.Union([t.Number(), t.Null()])),
   targetUnit: t.Optional(t.Union([t.String(), t.Null()])),
+  integrationType: t.Optional(t.Union([t.String(), t.Null()])),
+  integrationConfig: t.Optional(t.Union([t.Any(), t.Null()])),
 });
 
 export const CreateHabitSchema = HabitBaseSchema;
@@ -24,6 +26,8 @@ export const HabitSchema = t.Object({
   emoji: t.Union([t.String(), t.Null()]),
   dailyTarget: t.Union([t.Number(), t.Null()]),
   targetUnit: t.Union([t.String(), t.Null()]),
+  integrationType: t.Optional(t.Union([t.String(), t.Null()])),
+  integrationConfig: t.Optional(t.Union([t.Any(), t.Null()])),
   habitInstances: t.Array(HabitInstanceSchema),
 });
 

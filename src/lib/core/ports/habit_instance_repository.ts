@@ -7,4 +7,5 @@ export interface HabitInstanceRepository {
   delete(habitId: number, id: number): Promise<Result<HabitInstance, Error>>;
   findAll(habitId: number, startDate: Date, endDate: Date): Promise<Result<HabitInstance[], Error>>;
   findBydate(habitId: number, date: Date): Promise<Result<HabitInstance | null, Error>>;
+  upsert(habitId: number, habitInstance: CreateHabitInstance): Promise<Result<HabitInstance, Error>>;
 }

@@ -11,6 +11,16 @@
   let type = habit.type || "GOOD";
   let dailyTarget = habit.dailyTarget || undefined;
   let targetUnit = habit.targetUnit || "";
+  let integrationType = habit.integrationType || "";
+  let integrationConfig = habit.integrationConfig || {};
+
+  $: isHomeAssistant = integrationType === "home_assistant";
+
+  function handleIntegrationChange(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    integrationType = target.value;
+    integrationConfig = {};
+  }
 </script>
 
 <form method="POST" action={formAction} class="habit-form">
@@ -104,6 +114,45 @@
       >Define a specific goal for the habit, e.g. Run 5 km, Drink 2000 mL of
       water.</small
     >
+  </fieldset>
+
+  <fieldset>
+    <legend>Integration (Optional)</legend>
+    <div class="form-group">
+      <label for="integrationType">Integration Type</label>
+      <select id="integrationType" name="integrationType" on:change={handleIntegrationChange}>
+        <option value="">None</option>
+        <option value="home_assistant">Home Assistant</option>
+      </select>
+    </div>
+
+    {#if isHomeAssistant}
+      <div class="form-inline-group">
+        <div class="form-group">
+          <label for="entityId">Entity ID</label>
+          <input
+            type="text"
+            id="entityId"
+            name="entityId"
+            bind:value={integrationConfig.entity_id}
+            placeholder="e.g. sensor.daily_steps"
+          />
+        </div>
+        <div class="form-group">
+          <label for="entityProperty">Property (Optional)</label>
+          <input
+            type="text"
+            id="entityProperty"
+            name="entityProperty"
+            bind:value={integrationConfig.property}
+            placeholder="e.g. state"
+          />
+        </div>
+      </div>
+      <small>
+        Enter the Home Assistant entity ID and an optional property to track.
+      </small>
+    {/if}
   </fieldset>
 
   <div class="form-actions">

@@ -21,6 +21,8 @@ export const habitsTable = sqliteTable("habits", {
   }).notNull(),
   dailyTarget: int('daily_target'),
   targetUnit: text('target_unit'),
+  integrationType: text('integration_type'),
+  integrationConfig: text('integration_config', { mode: 'json' }),
 
   ...timestamps,
 

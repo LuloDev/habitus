@@ -67,4 +67,21 @@ export class SqliteHabitInstances implements HabitInstanceRepository {
       return err(new Error("Database error during findBydate: " + (e as Error).message));
     }
   }
+
+  async upsert(habitId: number, habitInstance: CreateHabitInstance): Promise<Result<HabitInstance, Error>> {
+    try {
+      console.log(habitInstance);
+      const [upserted] = await db.insert(habitInstancesTable).values({
+        habitId: habitId,
+        date: habitInstance.date.toISOString(),
+        completed: habitInstance.completed,
+        targetValue: habitInstance.targetValue,
+        notes: habitInstance.notes,
+      }).returning();
+
+      return upserted ? ok(SqlAdapter.instancesToDto(upserted)) : err(new Error("Habit instance upsert failed"));
+    } catch (e) {
+      return err(new Error("Database error during upsert: " + (e as Error).message));
+    }
+  }
 }

@@ -21,6 +21,19 @@
     handleMouseLeave: () => void;
   }>();
 
+  async function handleSync(habit: Habit) {
+    const response = await fetch(`/api/habits/${habit.id}/sync`, {
+      method: "POST",
+    });
+
+    if (response.ok) {
+      console.log("Sync successful");
+    } else {
+      // Handle error
+      console.error("Sync failed");
+    }
+  }
+
   const daysState = $derived.by(() => {
     const days: { date: Date; instances: HabitInstance[] | null }[] = [];
 
@@ -62,6 +75,9 @@
         href="/habits/{habit.id}"
         data-sveltekit-preload-data="tap">Edit</a
       >
+      {#if habit.integrationType}
+        <button title="Sync" onclick={() => handleSync(habit)}>Sync</button>
+      {/if}
     </div>
   </div>
   <div class="habit-grid-container">
