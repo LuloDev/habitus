@@ -10,6 +10,8 @@ export function transformHabit(form: FormData, id?: number): UpdateHabit | Creat
   const integrationType = (form.get("integrationType") as string);
   const entityId = (form.get("entityId") as string);
   const entityProperty = (form.get("entityProperty") as string);
+  const stateValue = (form.get("entityStateValue") as string);
+  const stateRegex = (form.get("entityStateRegex") as string);
   const habit: UpdateHabit | CreateHabit = {
     id,
     name,
@@ -37,6 +39,8 @@ export function transformHabit(form: FormData, id?: number): UpdateHabit | Creat
     habit.integrationConfig = {
       entity_id: entityId,
       property: entityProperty,
+      state_value: stateValue,
+      state_regex: stateRegex
     };
   } else {
     habit.integrationType = null;

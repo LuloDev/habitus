@@ -27,7 +27,7 @@ export class SyncHabitUseCase {
       const endDate = new Date();
       endDate.setHours(23, 59, 59, 999);
       const startDate = new Date();
-      startDate.setDate(endDate.getDate() - 30);
+      startDate.setDate(endDate.getDate() - 365);
       startDate.setHours(0, 0, 0, 0);
 
       const syncedData = await integration.sync(habit, startDate, endDate);

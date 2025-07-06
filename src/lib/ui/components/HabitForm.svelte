@@ -152,6 +152,32 @@
       <small>
         Enter the Home Assistant entity ID and an optional property to track.
       </small>
+
+      <div class="form-inline-group">
+        <div class="form-group">
+          <label for="entityStateValue">State Value</label>
+          <input
+            type="text"
+            id="entityStateValue"
+            name="entityStateValue"
+            bind:value={integrationConfig.state_value}
+            placeholder="e.g. 'on', 'playing', 'home'"
+          />
+        </div>
+        <div class="form-group">
+          <label for="entityStateRegex">State Regex</label>
+          <input
+            type="text"
+            id="entityStateRegex"
+            name="entityStateRegex"
+            bind:value={integrationConfig.state_regex}
+            placeholder="e.g. 'on|playing|home'"
+          />
+        </div>
+      </div>
+      <small>
+        Enter a specific state value or a regular expression to track the time in minutes.
+      </small>
     {/if}
   </fieldset>
 

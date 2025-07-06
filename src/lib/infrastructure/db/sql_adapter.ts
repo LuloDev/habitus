@@ -13,7 +13,12 @@ export class SqlAdapter {
       dailyTarget: habits.dailyTarget,
       targetUnit: habits.targetUnit,
       integrationType: habits.integrationType,
-      integrationConfig: habits.integrationConfig,
+      integrationConfig: {
+        entity_id: habits.integrationConfig?.entity_id,
+        property: habits.integrationConfig?.property,
+        state_value: habits.integrationConfig?.state_value,
+        state_regex: habits.integrationConfig?.state_regex,
+      },
       habitInstances: habits.habitInstances?.map((habitInstance: any) => SqlAdapter.instancesToDto(habitInstance)),
     }
   }
