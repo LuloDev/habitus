@@ -68,10 +68,10 @@
   class:good={habit.type === "GOOD"}
   class:bad={habit.type === "BAD"}
   class:neutral={level === 0}
-  class:level-1={level < 0.22 && level >= 0.1}
-  class:level-2={level < 0.8 && level >= 0.5}
-  class:level-3={level < 0.95 && level >= 0.8}
-  class:level-4={level >= 0.95}
+  class:level-1={level > 0 && level <= 0.25}
+  class:level-2={level > 0.25 && level <= 0.5}
+  class:level-3={level > 0.5 && level <= 0.75}
+  class:level-4={level > 0.75}
   data-day-square-index={index}
   data-day-square-level={level}
   data-day-square-title="Day {day.getDate()}"
