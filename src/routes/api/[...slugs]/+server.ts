@@ -1,10 +1,44 @@
-import { Elysia, t } from 'elysia';
+import { Elysia } from 'elysia';
 import HabitsRoute from '$lib/infrastructure/routes/habits';
 import HabitInstancesRoute from '$lib/infrastructure/routes/habit_instances';
+import { cron } from '@elysiajs/cron';
+import { SyncHabitUseCase } from '$lib/application/use-cases/sync_habit';
+import { SqliteHabitInstances } from '$lib/infrastructure/db/sqlite_habit_instances';
+import { SqliteHabits } from '$lib/infrastructure/db/sqlite_habits';
+
+const habitRepository = new SqliteHabits();
+const habitInstanceRepository = new SqliteHabitInstances();
+const syncHabitUseCase = new SyncHabitUseCase(habitRepository, habitInstanceRepository);
 
 const app = new Elysia({ prefix: '/api' })
   .use(HabitsRoute)
-  .use(HabitInstancesRoute);
+  .use(HabitInstancesRoute)
+  .use(
+    cron({
+      name: 'heartbeat',
+      pattern: '*/1 * * * * *',
+      run() {
+        console.log("Heartbeat")
+      }
+    }
+    ))
+  .use(
+    cron({
+      name: 'syncHabits',
+      pattern: '* */10 * * * *',
+      async run() {
+        console.log('Syncing habits...');
+        const habits = await habitRepository.findAll();
+        if (habits.isOk()) {
+          for (const habit of habits.value) {
+            if (habit.integrationType === 'home_assistant') {
+              await syncHabitUseCase.execute(habit.id);
+            }
+          }
+        }
+      },
+    })
+  );
 
 type RequestHandler = (v: { request: Request }) => Response | Promise<Response>
 
