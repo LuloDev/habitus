@@ -15,15 +15,6 @@ const app = new Elysia({ prefix: '/api' })
   .use(HabitInstancesRoute)
   .use(
     cron({
-      name: 'heartbeat',
-      pattern: '*/1 * * * * *',
-      run() {
-        console.log("Heartbeat")
-      }
-    }
-    ))
-  .use(
-    cron({
       name: 'syncHabits',
       pattern: '* */10 * * * *',
       async run() {
