@@ -17,6 +17,7 @@ WORKDIR /usr/src/app
 COPY --from=base /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app/src/lib/infrastructure/db/migrate.ts ./src/lib/infrastructure/db/migrate.ts
 COPY --from=build /usr/src/app/src/lib/infrastructure/db/migrations ./src/lib/infrastructure/db/migrations
+COPY --from=build /usr/src/app/src/env.ts ./src/env.ts
 
 COPY package.json .
 
