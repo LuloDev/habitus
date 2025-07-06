@@ -1,7 +1,7 @@
 import { Elysia } from 'elysia';
 import HabitsRoute from '$lib/infrastructure/routes/habits';
 import HabitInstancesRoute from '$lib/infrastructure/routes/habit_instances';
-import { cron } from '@elysiajs/cron';
+import { cron, Patterns } from '@elysiajs/cron';
 import { SyncHabitUseCase } from '$lib/application/use-cases/sync_habit';
 import { SqliteHabitInstances } from '$lib/infrastructure/db/sqlite_habit_instances';
 import { SqliteHabits } from '$lib/infrastructure/db/sqlite_habits';
@@ -16,7 +16,7 @@ const app = new Elysia({ prefix: '/api' })
   .use(
     cron({
       name: 'syncHabits',
-      pattern: '* */10 * * * *',
+      pattern: Patterns.everyMinutes(15),
       async run() {
         console.log('Syncing habits...');
         const habits = await habitRepository.findAll();
