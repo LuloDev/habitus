@@ -120,7 +120,7 @@
     <legend>Integration (Optional)</legend>
     <div class="form-group">
       <label for="integrationType">Integration Type</label>
-      <select id="integrationType" name="integrationType" on:change={handleIntegrationChange}>
+      <select id="integrationType" name="integrationType" bind:value={integrationType} on:change={handleIntegrationChange}>
         <option value="">None</option>
         <option value="home_assistant">Home Assistant</option>
       </select>
