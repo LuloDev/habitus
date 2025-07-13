@@ -19,6 +19,8 @@ Habitus is a powerful and intuitive habit tracking application designed to help 
 - **CRUD Operations**: Full control over your habits and their instances (daily entries).
 - **Home Assistant Integration**: Seamlessly synchronize your habits with Home Assistant for automated tracking and advanced automations.
 
+![Habit Card Example](docs/imgs/habit_card.png)
+
 ## 🚀 Technologies Used
 
 - **Frontend**: SvelteKit, TypeScript
@@ -126,4 +128,3 @@ Don't forget to give the project a star! Thanks again!
 ## 📄 License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-
