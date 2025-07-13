@@ -131,7 +131,7 @@
     vertical-align: middle;
   }
 
-  .habit-info:hover .sync-button {
+  .habit-entry:hover .sync-button {
     opacity: 1;
   }
 
@@ -182,6 +182,12 @@
 
   .habit-actions {
     margin-left: auto;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  .habit-entry:hover .habit-actions {
+    opacity: 1;
   }
 
   .habit-actions a {
