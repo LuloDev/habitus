@@ -11,7 +11,7 @@
 
 <div class="page-container">
   <header class="page-header">
-    <h1>Editar Hábito: {data.habit?.name || "Loading..."}</h1>
+    <h1>Edit Habit: {data.habit?.name || "Loading..."}</h1>
   </header>
 
   <div class="form-wrapper">

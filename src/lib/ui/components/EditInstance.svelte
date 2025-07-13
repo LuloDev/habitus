@@ -35,7 +35,7 @@
     <h3 id="popover-title">
       {day.toLocaleDateString(undefined, { month: "long", day: "numeric" })}
     </h3>
-    <button class="close-button" aria-label="Cerrar" onclick={close}
+    <button class="close-button" aria-label="Close" onclick={close}
       >&times;</button
     >
   </header>
@@ -54,7 +54,7 @@
     {#if existingInstance}
       <button
         class="delete-button"
-        aria-label="Eliminar entrada"
+        aria-label="Delete entry"
         onclick={() => deleteInstance(existingInstance as HabitInstance)}
       >
         <svg
