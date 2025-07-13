@@ -8,10 +8,15 @@
   } from "$lib/core/domain/habit_instance";
   import HabitCard from "$lib/ui/components/Habit.svelte";
   import type { PageProps } from "./$types";
+  import { title } from "$lib/stores/title";
+
+  $title = "Habitus | Home";
 
   let { data }: PageProps = $props<{ data: { habits: Habit[] } }>();
 
-  const habitList = $state(data.habits);
+  let habitList = $state(
+    data.habits.map((h: Habit) => ({ ...h, syncing: false, syncStatus: null })),
+  );
   let currentHabit: null | Habit = $state(null);
   let currentInstance: null | HabitInstance = $state(null);
   let tooltipTop = $state(0);
@@ -65,7 +70,13 @@
     });
     if (response.ok) {
       const newInstance = await response.json();
-      habit.habitInstances.push(newInstance);
+      const updatedHabit = {
+        ...habit,
+        habitInstances: [...habit.habitInstances, newInstance],
+      };
+      habitList = habitList.map((h: Habit) =>
+        h.id === habit.id ? updatedHabit : h,
+      );
       handleClose();
     }
   };
@@ -80,10 +91,16 @@
       },
     );
 
-    if (response.ok) {
+    if (response.ok && editHabit) {
       const deletedInstance = await response.json();
-      editHabit.habitInstances = editHabit.habitInstances.filter(
-        (i) => i.id !== deletedInstance.id,
+      const updatedHabit = {
+        ...editHabit,
+        habitInstances: editHabit.habitInstances.filter(
+          (i) => i.id !== deletedInstance.id,
+        ),
+      };
+      habitList = habitList.map((h: Habit) =>
+        h.id === updatedHabit.id ? updatedHabit : h,
       );
       handleClose();
     }
@@ -120,7 +137,13 @@
       });
       if (response.ok) {
         const newInstance = await response.json();
-        habit.habitInstances.push(newInstance);
+        const updatedHabit = {
+          ...habit,
+          habitInstances: [...habit.habitInstances, newInstance],
+        };
+        habitList = habitList.map((h: Habit) =>
+          h.id === habit.id ? updatedHabit : h,
+        );
       }
     } else {
       const response = await fetch(
@@ -134,14 +157,93 @@
       );
       if (response.ok) {
         const newInstance = await response.json();
-        habit.habitInstances = habit.habitInstances.filter(
-          (instance: HabitInstance) => {
-            return instance.id !== newInstance.id;
-          },
+        const updatedHabit = {
+          ...habit,
+          habitInstances: habit.habitInstances.filter(
+            (instance: HabitInstance) => instance.id !== newInstance.id,
+          ),
+        };
+        habitList = habitList.map((h: Habit) =>
+          h.id === habit.id ? updatedHabit : h,
         );
       }
     }
   };
+
+  async function handleSync(habit: Habit) {
+    const index = habitList.findIndex((h: Habit) => h.id === habit.id);
+    if (index === -1) return;
+
+    const updateHabitInList = (
+      id: number,
+      updates: Partial<
+        Habit & { syncing: boolean; syncStatus: "success" | "error" | null }
+      >,
+    ) => {
+      habitList = habitList.map((h: Habit) =>
+        h.id === id ? { ...h, ...updates } : h,
+      );
+    };
+
+    updateHabitInList(habit.id, { syncing: true, syncStatus: null });
+
+    try {
+      const [response] = await Promise.all([
+        fetch(`/api/habits/${habit.id}/sync`, { method: "POST" }),
+        new Promise((resolve) => setTimeout(resolve, 2000)), // Simulate network delay
+      ]);
+
+      if (response.ok) {
+        const updatedHabitResponse = await fetch(`/api/habits/${habit.id}`);
+        if (updatedHabitResponse.ok) {
+          const fetchedHabit = await updatedHabitResponse.json();
+          const newHabitInstances = fetchedHabit.habitInstances.map(
+            (instance: any) => ({
+              ...instance,
+              date: new Date(instance.date),
+            }),
+          );
+          updateHabitInList(habit.id, {
+            ...fetchedHabit,
+            habitInstances: newHabitInstances,
+            syncing: false,
+            syncStatus: "success",
+          });
+        } else {
+          console.error(
+            "Failed to fetch updated habit after sync.",
+            updatedHabitResponse.status,
+            updatedHabitResponse.statusText,
+          );
+          updateHabitInList(habit.id, { syncing: false, syncStatus: "error" });
+        }
+      } else {
+        updateHabitInList(habit.id, { syncing: false, syncStatus: "error" });
+        try {
+          const errorData = await response.json();
+          console.error(
+            "Sync failed with status:",
+            response.status,
+            "Error details:",
+            errorData,
+          );
+        } catch (jsonError) {
+          console.error(
+            "Sync failed with status:",
+            response.status,
+            response.statusText,
+            "Could not parse error response as JSON.",
+          );
+        }
+      }
+    } catch (error) {
+      updateHabitInList(habit.id, { syncing: false, syncStatus: "error" });
+    } finally {
+      setTimeout(() => {
+        updateHabitInList(habit.id, { syncing: false, syncStatus: null });
+      }, 1500);
+    }
+  }
 </script>
 
 {#if currentHabit && currentInstance}
@@ -178,12 +280,15 @@
   >
 </header>
 <main class="habits-list" id="habitsList">
-  {#each habitList as _habit, index}
+  {#each habitList as _habit, _index (_habit.id)}
     <HabitCard
-      habit={habitList[index]}
+      habit={_habit}
       {handleClick}
       {handleMouseMove}
       {handleMouseLeave}
+      onSync={handleSync}
+      syncing={_habit.syncing}
+      syncStatus={_habit.syncStatus}
     />
   {/each}
 </main>

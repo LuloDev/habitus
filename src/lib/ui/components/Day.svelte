@@ -44,20 +44,29 @@
     );
   };
 
-  let level = $derived.by(() => {
-    if (!habit) return 0;
+  let level = $state(0);
+
+  $effect(() => {
+
+    if (!habit) {
+      level = 0;
+      return;
+    }
 
     if (habit.dailyTarget === null) {
       if (instances === null || instances.length === 0) {
-        return 0;
+        level = 0;
+        return;
       }
-      return instances.some((i: HabitInstance) => i.completed) ? 1 : 0;
+      level = instances.some((i: HabitInstance) => i.completed) ? 1 : 0;
+      return;
     }
     if (instances === null || instances.length === 0) {
-      return 0;
+      level = 0;
+      return;
     }
     const total = getTotalValue(instances);
-    return total / habit.dailyTarget;
+    level = total / habit.dailyTarget;
   });
 </script>
 
