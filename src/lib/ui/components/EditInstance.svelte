@@ -2,7 +2,7 @@
   import type { Habit } from "$lib/core/domain/habit";
   import type { HabitInstance } from "$lib/core/domain/habit_instance";
 
-  let { day, top, left, instances, habit, close, save } = $props<{
+  let { day, top, left, instances, habit, close, save, deleteInstance } = $props<{
     day: Date | string;
     top: number;
     left: number;
@@ -10,6 +10,7 @@
     habit: Habit;
     close: () => void;
     save: (day: Date, habit: Habit, value: number) => void;
+    deleteInstance: (instance: HabitInstance) => void;
   }>();
 
   let inputValue = $derived.by(() => {
@@ -51,7 +52,11 @@
   </div>
   <footer class="popover-actions">
     {#if existingInstance}
-      <button class="delete-button" aria-label="Eliminar entrada">
+      <button
+        class="delete-button"
+        aria-label="Eliminar entrada"
+        onclick={() => deleteInstance(existingInstance as HabitInstance)}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"

@@ -70,6 +70,25 @@
     }
   };
 
+  const handleDelete = async (instance: HabitInstance) => {
+    const habitId = editHabit?.id;
+    const instanceId = instance.id;
+    const response = await fetch(
+      `/api/habits/${habitId}/instances/${instanceId}`,
+      {
+        method: "DELETE",
+      },
+    );
+
+    if (response.ok) {
+      const deletedInstance = await response.json();
+      editHabit.habitInstances = editHabit.habitInstances.filter(
+        (i) => i.id !== deletedInstance.id,
+      );
+      handleClose();
+    }
+  };
+
   const handleClick = async (
     habit: Habit,
     day: Date,
@@ -146,6 +165,7 @@
     left={editLeft}
     close={handleClose}
     save={handleSave}
+    deleteInstance={handleDelete}
   />
 {/if}
 
