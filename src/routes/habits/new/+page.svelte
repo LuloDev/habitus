@@ -1,8 +1,11 @@
 <script lang="ts">
   import HabitForm from "$lib/ui/components/HabitForm.svelte";
   import type { ActionData } from "./$types";
+  import { title } from '$lib/stores/title';
 
   export let form: ActionData;
+
+  $title = 'Habitus | New Habit';
 </script>
 
 <div class="page-container">

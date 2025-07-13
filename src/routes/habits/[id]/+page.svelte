@@ -1,9 +1,12 @@
 <script lang="ts">
   import HabitForm from "$lib/ui/components/HabitForm.svelte";
   import type { ActionData, PageData } from "./$types";
+  import { title } from '$lib/stores/title';
 
   export let data: PageData;
   export let form: ActionData;
+
+  $title = `Habitus | Edit ${data.habit?.name}`;
 </script>
 
 <div class="page-container">
